@@ -1,0 +1,4 @@
+
+
+ADD_SUBDIRECTORY(GraspQuality)
+ADD_SUBDIRECTORY(GraspPlanner)
