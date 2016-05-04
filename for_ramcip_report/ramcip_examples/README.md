@@ -1,4 +1,4 @@
-#Grasp Planner Evaluator
+#Grasp Planner Evaluator for RAMCIP Report
 
 ##Introduction
 This is a simple example illustrating the capabilities of Simox, in a clustered environment, along with some functionalities for evaluating a grasp.
