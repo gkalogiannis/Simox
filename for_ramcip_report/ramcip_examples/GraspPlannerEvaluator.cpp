@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     SoDB::init();
     SoQt::init(argc, argv, "showRobot");
     cout << " --- START --- " << endl;
-
+    cout << "Working on Ramcip Examples" << endl;
     std::string filename("../../data/scenes/scene.xml");
     std::string robotName("SHADOWHAND");
     std::string eefName("SHADOWHAND");
