@@ -5,6 +5,7 @@
 #include <iostream>
 
 using std::cout;
+using std::cin;
 using std::endl;
 using namespace VirtualRobot;
 
@@ -12,17 +13,56 @@ using namespace VirtualRobot;
 #include <Eigen/Geometry>
 
 #include "GraspPlannerEvaluatorWindow.h"
-
+void DisplayRobotSelectionMenu(int &option) 
+{
+  cout << "-------------------------------------------"<<endl;
+  cout << "Working on Ramcip Objects" << endl;
+  cout << "-------------------------------------------"<<endl;
+  cout << "Please Select Robot...."<<endl;
+  cout << " 1.Shadow Hand"<<endl;
+  cout << " 2.Barret Hand"<<endl;
+  cout << " 3.Exit"<<endl;
+  cout << "-------------------------------------------" << endl;
+  cout << "Enter Selection...(default is Shadow Hand).." << endl;
+  cin >> option;
+}
+void DisplayObjectSelectionMenu(int &option) 
+{
+  cout << "-------------------------------------------"<<endl;
+  cout << "Please Select Object...."<<endl;
+  cout << " 1.Amita Object"<<endl;
+  cout << " 2.Depon Object"<<endl;
+  cout << " 3.Exit"<<endl;
+  cout << "-------------------------------------------" << endl;
+  cout << "Enter Selection...(default is Shadow Hand).." << endl;
+  cin >> option;
+}
 
 int main(int argc, char* argv[])
 {
+  int robot_selection=0;
     SoDB::init();
     SoQt::init(argc, argv, "showRobot");
-    cout << " --- START --- " << endl;
-    cout << "Working on Ramcip Examples" << endl;
-    std::string filename("../../data/scenes/scene.xml");
+    DisplayRobotSelectionMenu(robot_selection);
+    switch (robot_selection)
+    {
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        return 0;
+        break;
+      default:
+        break;
+    }
+    std::string filename("../../data/ramcip_scenes/DeponScene.xml");
+//      ../ramcip_examples/data/ramcip_scenes/AmitaScene.xml.bak");
+
+ //   std::string filename("../../data/scenes/scene.xml");
     std::string robotName("SHADOWHAND");
     std::string eefName("SHADOWHAND");
+    
     std::string objectName("ManipulationObject");
     std::string preshapeName("Grasp Preshape");
 

@@ -1,0 +1,8 @@
+<ManipulationObject name='Depon'>
+	<Visualization>
+          <File type='inventor'>../wrl/depon.wrl</File>
+	</Visualization>
+	<CollisionModel>
+          <File type='inventor'>../wrl/depon.wrl</File>
+	</CollisionModel>
+</ManipulationObject>
