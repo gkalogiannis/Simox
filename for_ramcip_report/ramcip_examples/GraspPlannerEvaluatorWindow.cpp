@@ -475,8 +475,12 @@ void GraspPlannerEvaluatorWindow::perturbateObject()
 
 	Eigen::Matrix4f deltaPose;
 	deltaPose.setIdentity();
-	deltaPose.block(0,0,3,3) = rodriguesFormula(rotPertub, UI.doubleSpinBoxPertAngle->value());
-	deltaPose.block(0,3,3,1) = translPertub*UI.doubleSpinBoxPertDistance->value();
+	//deltaPose.block(0,0,3,3) = rodriguesFormula(rotPertub, UI.doubleSpinBoxPertAngle->value());
+	//deltaPose.block(0,3,3,1) = translPertub*UI.doubleSpinBoxPertDistance->value();
+deltaPose << 1,0,0,30,
+             0,1,0,30,
+             0,0,1,0,
+             0,0,0,1;  
 
 	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
 	std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
