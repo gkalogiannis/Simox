@@ -70,7 +70,9 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 		void perturbatedGrasp();
 		void perturbateObject();
-		void resetPose();
+                void RobustnessCircular();
+		void RobustnessButtonClick();
+                void resetPose();
 		void normalGrasp();
 		void moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 1000);
 		bool updateEEFPose(const Eigen::Vector3f& deltaPosition);
