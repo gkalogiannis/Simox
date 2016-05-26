@@ -497,46 +497,34 @@ void GraspPlannerEvaluatorWindow::perturbateObject()
 	object->setGlobalPose(deltaPose*object->getGlobalPose());
 
 }
-void GraspPlannerEvaluatorWindow::RobustnessCircular()
+void GraspPlannerEvaluatorWindow::pertubateStepObject()
 {
-  std::cout<<"Circular"<<std::endl;
+	Eigen::Vector3f rotPertub;
+	rotPertub.setRandom(3).normalize();
+	Eigen::Vector3f translPertub;
+	translPertub.setRandom(3).normalize();
+
+	Eigen::Matrix4f deltaPose;
+	deltaPose.setIdentity();
+
+        translPertub(0) =  UI.doubleSpinBoxPertDistanceX->value();
+        translPertub(1) =  UI.doubleSpinBoxPertDistanceY->value();
+        translPertub(2) =  UI.doubleSpinBoxPertDistanceZ->value();
+
+        // rotPertub(0) =  UI.doubleSpinBoxPertAngleX->value();
+        // rotPertub(1) =  UI.doubleSpinBoxPertAngleY->value();
+        /* rotPertub(2) =  UI.doubleSpinBoxPertAngleZ->value(); */
+
+        
+        //deltaPose.block(0,0,3,3) = rodriguesFormula(rotPertub, UI.doubleSpinBoxPertAngle->value());
+	// deltaPose.block(0,0,3,3) = rotPertub;
+        deltaPose.block(0,3,3,1) = translPertub;
+
+	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+	std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
+	object->setGlobalPose(deltaPose*object->getGlobalPose());
 }
-void GraspPlannerEvaluatorWindow::RobustnessButtonClick()
-{
-  std::cout << "Hello from robustness calculation" <<std::endl;
-  	openEEF();
-	resetPose();
-
-	graspNumber = UI.spinBoxGraspNum->value();
-	if (graspNumber <= 0 || grasps->getSize() < graspNumber) {
-		graspNumber = grasps->getSize();
-		UI.spinBoxGraspNum->setValue(graspNumber);
-		std::cout << "Invalid grasp number selection! Settting to last planned grasp." << std::endl;
-	}
-
-	// set to last valid grasp
-	if (graspNumber > 0 && eefCloned && eefCloned->getEndEffector(eefName))
-	{
-		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
-		eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-          
-            for (int step=0;step<10<step++;){
-                  RobustnessCircular();
-                  //Grasp Center Point Robot Node
-/*                   VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP(); */
-                  // //Grasp Pose
-                  // Eigen::Matrix4f pose = graspNode->getGlobalPose();
-                  // //Approach Direction (-z vector)
-                  // Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
-
-                  // //Move eff away	
-                  // moveEEFAway(approachDir, 3.0f);
-
-                  /* closeEEF(); */
-
-            }
-          }
-  }
 
 void GraspPlannerEvaluatorWindow::perturbatedGrasp()
 {
@@ -556,22 +544,49 @@ void GraspPlannerEvaluatorWindow::perturbatedGrasp()
 		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
 		eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
 		if (!UI.doubleSpinBoxStep->value() && !UI.doubleSpinBoxVDelay->value() && !UI.doubleSpinBoxError->value()){
-                perturbateObject();
-
-		//Grasp Center Point Robot Node
-		VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
-		//Grasp Pose
-		Eigen::Matrix4f pose = graspNode->getGlobalPose();
-		//Approach Direction (-z vector)
-		Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
-
-		//Move eff away	
-		moveEEFAway(approachDir, 3.0f);
-
-		closeEEF();
+                  perturbateObject();
+                  
+                  //Grasp Center Point Robot Node
+                  VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
+                  //Grasp Pose
+                  Eigen::Matrix4f pose = graspNode->getGlobalPose();
+                  //Approach Direction (-z vector)
+                  Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
+                  
+                  //Move eff away	
+                  moveEEFAway(approachDir, 3.0f);
+                  closeEEF();
                 }
                 else
                 {
+                  	Eigen::Vector3f rotPertub;
+	rotPertub.setRandom(3).normalize();
+	Eigen::Vector3f translPertub;
+	translPertub.setRandom(3).normalize();
+
+	Eigen::Matrix4f deltaPose;
+	deltaPose.setIdentity();
+int step=1;
+        int delay =100;
+int min_error=0;
+        translPertub(0) =  UI.doubleSpinBoxPertDistanceX->value();
+        translPertub(1) =  UI.doubleSpinBoxPertDistanceY->value();
+        translPertub(2) =  UI.doubleSpinBoxPertDistanceZ->value();
+
+        // rotPertub(0) =  UI.doubleSpinBoxPertAngleX->value();
+        // rotPertub(1) =  UI.doubleSpinBoxPertAngleY->value();
+        /* rotPertub(2) =  UI.doubleSpinBoxPertAngleZ->value(); */
+
+        
+        //deltaPose.block(0,0,3,3) = rodriguesFormula(rotPertub, UI.doubleSpinBoxPertAngle->value());
+	// deltaPose.block(0,0,3,3) = rotPertub;
+        deltaPose.block(0,3,3,1) = translPertub;
+
+	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+	std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
+	object->setGlobalPose(deltaPose*object->getGlobalPose());
+                 
                 }
 	}
 }
