@@ -566,27 +566,35 @@ void GraspPlannerEvaluatorWindow::perturbatedGrasp()
 
 	Eigen::Matrix4f deltaPose;
 	deltaPose.setIdentity();
-int step=1;
-        int delay =100;
-int min_error=0;
-        translPertub(0) =  UI.doubleSpinBoxPertDistanceX->value();
-        translPertub(1) =  UI.doubleSpinBoxPertDistanceY->value();
-        translPertub(2) =  UI.doubleSpinBoxPertDistanceZ->value();
-
-        // rotPertub(0) =  UI.doubleSpinBoxPertAngleX->value();
-        // rotPertub(1) =  UI.doubleSpinBoxPertAngleY->value();
-        /* rotPertub(2) =  UI.doubleSpinBoxPertAngleZ->value(); */
-
         
-        //deltaPose.block(0,0,3,3) = rodriguesFormula(rotPertub, UI.doubleSpinBoxPertAngle->value());
-	// deltaPose.block(0,0,3,3) = rotPertub;
-        deltaPose.block(0,3,3,1) = translPertub;
-
+        int step=1;
+        int delay =100;
+        int min_error=0;
+        for (step;step<UI.doubleSpinBoxPertDistanceX->value();step++){
+          translPertub(0) =  step;
+          translPertub(1) = 0;
+          translPertub(2) = 0;
+          std::cout<<step<<std::endl;
+          std::cout<<UI.doubleSpinBoxPertDistanceX->value()<<std::endl;
+          deltaPose.block(0,3,3,1) = translPertub;
+       
 	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
 	std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
 	std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
 	object->setGlobalPose(deltaPose*object->getGlobalPose());
-                 
+        VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
+                  //Grasp Pose
+                  Eigen::Matrix4f pose = graspNode->getGlobalPose();
+                  //Approach Direction (-z vector)
+                  Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
+                  
+                  //Move eff away	
+                  moveEEFAway(approachDir, 3.0f);
+                                    closeEEF();
+                                    viewer->
+viewer->render();
+      sleep(2);
+        }
                 }
 	}
 }
