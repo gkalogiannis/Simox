@@ -560,16 +560,19 @@ void GraspPlannerEvaluatorWindow::perturbatedGrasp()
                 else
                 {
                   	Eigen::Vector3f rotPertub;
-	rotPertub.setRandom(3).normalize();
-	Eigen::Vector3f translPertub;
-	translPertub.setRandom(3).normalize();
-
-	Eigen::Matrix4f deltaPose;
-	deltaPose.setIdentity();
-        
-        int step=1;
-        int delay =100;
+                        rotPertub.setRandom(3).normalize();
+                        Eigen::Vector3f translPertub;
+                        translPertub.setRandom(3).normalize();
+                        Eigen::Matrix4f deltaPose;
+                        deltaPose.setIdentity();
+                        std::cout<<object->getGlobalPose()<<std::endl;  
+        int step=UI.doubleSpinBoxStep->value();
+        int delay =UI.doubleSpinBoxVDelay->value(); //Delay in secs
         int min_error=0;
+        //check id step is valid
+                  Eigen::Matrix4f temp;
+          temp=object->getGlobalPose(); 
+ VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
         for (step;step<UI.doubleSpinBoxPertDistanceX->value();step++){
           translPertub(0) =  step;
           translPertub(1) = 0;
@@ -577,23 +580,23 @@ void GraspPlannerEvaluatorWindow::perturbatedGrasp()
           std::cout<<step<<std::endl;
           std::cout<<UI.doubleSpinBoxPertDistanceX->value()<<std::endl;
           deltaPose.block(0,3,3,1) = translPertub;
-       
-	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+	
+          std::cout<< "DeltaPose:\n" << deltaPose << std::endl;
 	std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
-	std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
-	object->setGlobalPose(deltaPose*object->getGlobalPose());
-        VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
+	std::cout << "FinalPose:\n" << (deltaPose*temp) << std::endl;
+	
+        object->setGlobalPose(deltaPose*temp);
+      //  VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
                   //Grasp Pose
                   Eigen::Matrix4f pose = graspNode->getGlobalPose();
                   //Approach Direction (-z vector)
                   Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
                   
                   //Move eff away	
-                  moveEEFAway(approachDir, 3.0f);
-                                    closeEEF();
-                                    viewer->
+              /*     moveEEFAway(approachDir, 3.0f);  */
+                                    closeEEF(); 
 viewer->render();
-      sleep(2);
+      sleep(delay/1000);
         }
                 }
 	}
