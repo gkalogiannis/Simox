@@ -1,0 +1,8 @@
+<ManipulationObject name='Amita'>
+	<Visualization>
+          <File type='inventor'>../wrl/plate_round.wrl</File>
+	</Visualization>
+	<CollisionModel>
+          <File type='inventor'>../wrl/plate_round.wrl</File>
+	</CollisionModel>
+</ManipulationObject>

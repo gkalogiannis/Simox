@@ -43,20 +43,21 @@ int main(int argc, char* argv[])
   int robot_selection=0;
     SoDB::init();
     SoQt::init(argc, argv, "showRobot");
-    DisplayRobotSelectionMenu(robot_selection);
-    switch (robot_selection)
-    {
-      case 1:
-        break;
-      case 2:
-        break;
-      case 3:
-        return 0;
-        break;
-      default:
-        break;
-    }
-    std::string filename("../../data/ramcip_scenes/AmitaScene.xml");
+    /* DisplayRobotSelectionMenu(robot_selection); */
+    // switch (robot_selection)
+    // {
+      // case 1:
+        // break;
+      // case 2:
+        // break;
+      // case 3:
+        // return 0;
+        // break;
+      // default:
+        // break;
+    /* } */
+    std::string filename("../../data/ramcip_scenes/PlateRoundScene.xml");
+    //std::string filename("../../data/ramcip_scenes/AmitaScene.xml");
     //std::string filename("../../data/ramcip_scenes/DeponScene.xml");
     std::string robotName("SHADOWHAND");
     std::string eefName("SHADOWHAND");
