@@ -315,6 +315,8 @@ void GraspPlannerEvaluatorWindow::loadScene()
 
 void GraspPlannerEvaluatorWindow::plan()
 {
+   clock_t tStart=clock();
+
 	openEEF();
 	resetPose();
 
@@ -373,6 +375,7 @@ void GraspPlannerEvaluatorWindow::plan()
 	else {
 		resetPose();
 	}
+ printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 }
 
 void GraspPlannerEvaluatorWindow::normalGrasp() {
@@ -388,9 +391,8 @@ void GraspPlannerEvaluatorWindow::normalGrasp() {
 
 	if (graspNumber > 0 && eefCloned && eefCloned->getEndEffector(eefName))
 	{
-		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
+         		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
 		eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-
 		closeEEF();
 	}
 }

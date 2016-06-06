@@ -56,7 +56,8 @@ int main(int argc, char* argv[])
       // default:
         // break;
     /* } */
-    std::string filename("../../data/ramcip_scenes/PlateRoundScene.xml");
+    std::string filename("../../data/cluttered_scenes/ClutteredScene1.xml");
+    //std::string filename("../../data/ramcip_scenes/PlateRoundScene.xml");
     //std::string filename("../../data/ramcip_scenes/AmitaScene.xml");
     //std::string filename("../../data/ramcip_scenes/DeponScene.xml");
     std::string robotName("SHADOWHAND");
