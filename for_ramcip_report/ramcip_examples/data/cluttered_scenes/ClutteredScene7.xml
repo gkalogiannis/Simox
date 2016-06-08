@@ -12,22 +12,22 @@
     </GlobalPose>
   </Robot>
 
-  <Obstacle name='Table'>
-    <Visualization>
-      <File type='inventor'>../ramcip_scenes/table.iv</File>
-      <UseAsCollisionModel/>
-    </Visualization>
-    <GlobalPose>
-      <Transform>
-        <Matrix4x4>
-          <row1 c1='1' c2='0' c3='0' c4='-400'/>
-          <row2 c1='0' c2='1' c3='0' c4='500'/>
-          <row3 c1='0' c2='0' c3='1' c4='-815'/>
-          <row4 c1='0' c2='0' c3='0' c4='1'/>
-        </Matrix4x4>
-      </Transform>
-    </GlobalPose>
-  </Obstacle>
+  <!-- <Obstacle name='Table'> -->
+    <!-- <Visualization> -->
+      <!-- <File type='inventor'>../ramcip_scenes/table.iv</File> -->
+      <!-- <UseAsCollisionModel/> -->
+    <!-- </Visualization> -->
+    <!-- <GlobalPose> -->
+      <!-- <Transform> -->
+        <!-- <Matrix4x4> -->
+          <!-- <row1 c1='1' c2='0' c3='0' c4='-400'/> -->
+          <!-- <row2 c1='0' c2='1' c3='0' c4='500'/> -->
+          <!-- <row3 c1='0' c2='0' c3='1' c4='-815'/> -->
+          <!-- <row4 c1='0' c2='0' c3='0' c4='1'/> -->
+        <!-- </Matrix4x4> -->
+      <!-- </Transform> -->
+    <!-- </GlobalPose> -->
+  <!-- </Obstacle> -->
 
   <ManipulationObject name="ManipulationObject">
     <File>../ramcip_objects/xml/PlateRound.xml</File>
@@ -46,7 +46,7 @@
   </Visualization>
   <GlobalPose>
     <Transform>
-      <Translation x="50" y="-190" z="0"/>
+      <Translation x="-50" y="-230" z="0"/>
       <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
     </Transform>
   </GlobalPose>
@@ -60,7 +60,7 @@
   </Visualization>
   <GlobalPose>
     <Transform>
-      <Translation x="220" y="-100" z="0"/>
+      <Translation x="250" y="-140" z="0"/>
       <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
     </Transform>
   </GlobalPose>
@@ -73,7 +73,7 @@
   </Visualization>
   <GlobalPose>
     <Transform>
-      <Translation x="-150" y="-100" z="0"/>
+      <Translation x="-170" y="-100" z="0"/>
       <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
     </Transform>
   </GlobalPose>
@@ -86,7 +86,7 @@
   </Visualization>
   <GlobalPose>
     <Transform>
-      <Translation x="40" y="180" z="0"/>
+      <Translation x="40" y="200" z="0"/>
       <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
     </Transform>
   </GlobalPose>
@@ -100,7 +100,7 @@
   </Visualization>
   <GlobalPose>
     <Transform>
-      <Translation x="-140" y="200" z="0"/>
+      <Translation x="-170" y="210" z="0"/>
       <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
     </Transform>
   </GlobalPose>
@@ -126,7 +126,7 @@
   </Visualization>
   <GlobalPose>
     <Transform>
-      <Translation x="190" y="170" z="0"/>
+      <Translation x="190" y="190" z="0"/>
       <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
     </Transform>
   </GlobalPose>

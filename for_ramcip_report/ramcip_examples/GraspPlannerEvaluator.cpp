@@ -56,7 +56,9 @@ int main(int argc, char* argv[])
       // default:
         // break;
     /* } */
-    std::string filename("../../data/cluttered_scenes/ClutteredScene1.xml");
+    std::string filename("../..//data/cluttered_scenes/by_object/flat1/ClutteredScene_1_Depon.xml");
+
+        //std::string filename("../../data/cluttered_scenes/ClutteredScene10.xml");
     //std::string filename("../../data/ramcip_scenes/PlateRoundScene.xml");
     //std::string filename("../../data/ramcip_scenes/AmitaScene.xml");
     //std::string filename("../../data/ramcip_scenes/DeponScene.xml");

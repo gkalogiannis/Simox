@@ -1,0 +1,8 @@
+<ManipulationObject name='PlateSquare'>
+	<Visualization>
+          <File type='inventor'>../wrl/plate_shallow_square.wrl</File>
+	</Visualization>
+	<CollisionModel>
+          <File type='inventor'>../wrl/plate_shallow_square.wrl</File>
+	</CollisionModel>
+</ManipulationObject>

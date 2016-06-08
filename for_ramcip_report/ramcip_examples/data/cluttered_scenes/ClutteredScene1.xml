@@ -30,7 +30,7 @@
   </Obstacle>
 
   <ManipulationObject name="ManipulationObject">
-    <File>../ramcip_objects/xml/PlateRound.xml</File>
+    <File>../ramcip_objects/xml/Depon.xml</File>
     <GlobalPose>
       <Transform>
         <Translation x="0" y="0" z="0"/>
@@ -93,44 +93,44 @@
 </Obstacle>
 
 
-<Obstacle name="Obstacle5">
-  <Visualization>
-    <File type='inventor'>../ramcip_objects/wrl/remote.wrl</File>
-    <UseAsCollisionModel/>
-  </Visualization>
-  <GlobalPose>
-    <Transform>
-      <Translation x="-140" y="200" z="0"/>
-      <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
-    </Transform>
-  </GlobalPose>
-</Obstacle>
+<!-- <Obstacle name="Obstacle5"> -->
+  <!-- <Visualization> -->
+    <!-- <File type='inventor'>../ramcip_objects/wrl/remote.wrl</File> -->
+    <!-- <UseAsCollisionModel/> -->
+  <!-- </Visualization> -->
+  <!-- <GlobalPose> -->
+    <!-- <Transform> -->
+      <!-- <Translation x="-140" y="200" z="0"/> -->
+      <!-- <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/> -->
+    <!-- </Transform> -->
+  <!-- </GlobalPose> -->
+<!-- </Obstacle> -->
 
-<Obstacle name="Obstacle6">
-  <Visualization>
-    <File type='inventor'>../ramcip_objects/wrl/amita.wrl</File>
-    <UseAsCollisionModel/>
-  </Visualization>
-  <GlobalPose>
-    <Transform>
-      <Translation x="180" y="50" z="0"/>
-      <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
-    </Transform>
-  </GlobalPose>
-</Obstacle>
+<!-- <Obstacle name="Obstacle6"> -->
+  <!-- <Visualization> -->
+    <!-- <File type='inventor'>../ramcip_objects/wrl/amita.wrl</File> -->
+    <!-- <UseAsCollisionModel/> -->
+  <!-- </Visualization> -->
+  <!-- <GlobalPose> -->
+    <!-- <Transform> -->
+      <!-- <Translation x="180" y="50" z="0"/> -->
+      <!-- <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/> -->
+    <!-- </Transform> -->
+  <!-- </GlobalPose> -->
+<!-- </Obstacle> -->
 
-<Obstacle name="Obstacle7">
-  <Visualization>
-    <File type='inventor'>../ramcip_objects/wrl/bowl_blue_stripes.wrl</File>
-    <UseAsCollisionModel/>
-  </Visualization>
-  <GlobalPose>
-    <Transform>
-      <Translation x="190" y="170" z="0"/>
-      <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/>
-    </Transform>
-  </GlobalPose>
-</Obstacle>
+<!-- <Obstacle name="Obstacle7"> -->
+  <!-- <Visualization> -->
+    <!-- <File type='inventor'>../ramcip_objects/wrl/bowl_blue_stripes.wrl</File> -->
+    <!-- <UseAsCollisionModel/> -->
+  <!-- </Visualization> -->
+  <!-- <GlobalPose> -->
+    <!-- <Transform> -->
+      <!-- <Translation x="190" y="170" z="0"/> -->
+      <!-- <rollpitchyaw units="degree" roll="0" pitch="0" yaw="0"/> -->
+    <!-- </Transform> -->
+  <!-- </GlobalPose> -->
+<!-- </Obstacle> -->
 
 </Scene>
 
