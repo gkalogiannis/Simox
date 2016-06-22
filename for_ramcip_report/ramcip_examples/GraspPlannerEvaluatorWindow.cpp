@@ -484,13 +484,13 @@ void GraspPlannerEvaluatorWindow::perturbateObject()
         translPertub(1) =  UI.doubleSpinBoxPertDistanceY->value();
         translPertub(2) =  UI.doubleSpinBoxPertDistanceZ->value();
 
-        // rotPertub(0) =  UI.doubleSpinBoxPertAngleX->value();
-        // rotPertub(1) =  UI.doubleSpinBoxPertAngleY->value();
-        /* rotPertub(2) =  UI.doubleSpinBoxPertAngleZ->value(); */
+        rotPertub(0) =  UI.doubleSpinBoxPertAngleX->value();
+        rotPertub(1) =  UI.doubleSpinBoxPertAngleY->value();
+        rotPertub(2) =  UI.doubleSpinBoxPertAngleZ->value(); 
 
         
         //deltaPose.block(0,0,3,3) = rodriguesFormula(rotPertub, UI.doubleSpinBoxPertAngle->value());
-	// deltaPose.block(0,0,3,3) = rotPertub;
+//	deltaPose.block(0,0,3,3) = rotPertub;
         deltaPose.block(0,3,3,1) = translPertub;
 
 	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
