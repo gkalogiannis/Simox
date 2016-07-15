@@ -74,10 +74,10 @@ GraspPlannerEvaluatorWindow::GraspPlannerEvaluatorWindow(std::string& sceneFile,
 
 	setupUI();
 
-	loadScene();
+	//loadScene();
 
-	buildVisu();
-	viewer->viewAll();
+	//buildVisu();
+	//viewer->viewAll();
 }
 
 
@@ -121,6 +121,8 @@ void GraspPlannerEvaluatorWindow::setupUI()
 	connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
 	connect(UI.checkBoxCones, SIGNAL(clicked()), this, SLOT(frictionConeVisu()));
 	connect(UI.checkBoxGrasps, SIGNAL(clicked()), this, SLOT(showGrasps()));
+
+	connect(UI.pushButtonOpenScene, SIGNAL(clicked()), this, SLOT(OpenScene()));
 }
 
 
@@ -236,14 +238,48 @@ void GraspPlannerEvaluatorWindow::quit()
 	this->close();
 	SoQt::exitMainLoop();
 }
+void GraspPlannerEvaluatorWindow::OpenScene()
+{
+	loadScene();
 
+	buildVisu();
+	viewer->viewAll();
+	
+/*if (!object)
+	{
+		return;
+	}
+
+	ManipulationObjectPtr objectM(new ManipulationObject(object->getName(), object->getVisualization()->clone(), object->getCollisionModel()->clone()));
+	objectM->addGraspSet(grasps);
+	QString fi = QFileDialog::getOpenFileName(this, tr("Open Scene"), QString(), tr("XML Files (*.xml)"));
+	objectName = std::string(fi.toAscii());
+	bool ok = false;
+
+	try
+	{
+		ok = ObjectIO::saveManipulationObject(objectM, objectName);
+	}
+	catch (VirtualRobotException& e)
+	{
+		cout << " ERROR while saving object" << endl;
+		cout << e.what();
+		return;
+	}
+
+	if (!ok)
+	{
+		cout << " ERROR while saving object" << endl;
+		return;
+	}*/
+}
 void GraspPlannerEvaluatorWindow::loadScene()
 {
 	sceneVisuSep->removeAllChildren();
 	cout << "Loading Scene from " << sceneFile << endl;
-
+	
 	scene.reset();
-
+	
 	try
 	{
 		scene = SceneIO::loadScene(sceneFile);
@@ -276,28 +312,31 @@ void GraspPlannerEvaluatorWindow::loadScene()
 		else {
 			scene->deRegisterManipulationObject(objectName);
 		}
+		//HERE Entry point of ContactConeGenerator Method
+               // cout << "Entry point of ContactConeGenerator Method" << endl; 
 
-		qualityMeasure.reset(new GraspStudio::GraspQualityMeasureWrenchSpace(object));
-		//qualityMeasure->setVerbose(true);
-		qualityMeasure->calculateObjectProperties();
-		approach.reset(new GraspStudio::ApproachMovementSurfaceNormal(object, eef));
-		eefCloned = approach->getEEFRobotClone();
-		eefCloned->setGlobalPose(eefInitialPose);
+               // qualityMeasure.reset(new GraspStudio::GraspQualityMeasureWrenchSpace(object));
 
-		if (robot && eef)
-		{
-			std::string name = "Grasp Planner - ";
-			name += eef->getName();
-			grasps.reset(new GraspSet(name, robot->getType(), eefName));
-		}
-		planner.reset(new GraspStudio::GenericGraspPlanner(grasps, qualityMeasure, approach));
-		planner->setVerbose(true);
+               // qualityMeasure->setVerbose(true);
+              //  qualityMeasure->calculateObjectProperties();
+                approach.reset(new GraspStudio::ApproachMovementSurfaceNormal(object, eef));
+                eefCloned = approach->getEEFRobotClone();
+                eefCloned->setGlobalPose(eefInitialPose);
 
-		obstacles = scene->getObstacles();
-		obstacleSet = SceneObjectSetPtr(new VirtualRobot::SceneObjectSet());
-		for (unsigned i=0; i<obstacles.size(); i++) {
-			obstacleSet->addSceneObject(obstacles[i]);
-		}
+                if (robot && eef)
+                {
+                        std::string name = "Grasp Planner - ";
+                        name += eef->getName();
+                        grasps.reset(new GraspSet(name, robot->getType(), eefName));
+                }
+                planner.reset(new GraspStudio::GenericGraspPlanner(grasps, qualityMeasure, approach));
+                planner->setVerbose(true);
+
+                obstacles = scene->getObstacles();
+                obstacleSet = SceneObjectSetPtr(new VirtualRobot::SceneObjectSet());
+                for (unsigned i=0; i<obstacles.size(); i++) {
+                        obstacleSet->addSceneObject(obstacles[i]); 
+                }
 	}
 	catch (VirtualRobotException& e)
 	{
@@ -320,7 +359,17 @@ void GraspPlannerEvaluatorWindow::plan()
 	bool forceClosure = UI.checkBoxFoceClosure->isChecked();
 	float quality = (float)UI.doubleSpinBoxQuality->value();
 	int nrGrasps = UI.spinBoxGraspNumber->value();
-	planner.reset(new GraspStudio::GenericGraspPlanner(grasps, qualityMeasure, approach, quality, forceClosure));
+	int nContactPoints = UI.Contact_Points_Number->value();
+	float frictionCoef = (float)UI.Friction_Coef_Number->value();
+        int  nFrictionCones = UI.FricitonConeSamples->value();
+
+               qualityMeasure.reset(new GraspStudio::GraspQualityMeasureWrenchSpace(object,1.0f,frictionCoef,nFrictionCones));
+
+               qualityMeasure->setVerbose(true);
+               qualityMeasure->calculateObjectProperties();
+
+
+	planner.reset(new GraspStudio::GenericGraspPlanner(grasps, qualityMeasure, approach, quality, forceClosure, nContactPoints, frictionCoef ));
 	VR_INFO << "EEF robot type:" << approach->getEEF()->getRobotType() << endl;
 	/*if (!(approach->getEEF()->getRobot()->getCollisionModel()))
 	  VR_INFO << "Null collision model" << endl;*/
@@ -328,6 +377,7 @@ void GraspPlannerEvaluatorWindow::plan()
 	VR_ASSERT(obstacleSet);
 
 	int nr = planner->plan(nrGrasps, timeout, obstacleSet);
+	
 	VR_INFO << " Grasp planned:" << nr << endl;
 	std::stringstream ss;
 	ss << grasps->getSize();
@@ -415,8 +465,10 @@ void GraspPlannerEvaluatorWindow::closeEEF()
 		{
 			ss << "no";
 		}
+		ss << "\nContact Points "<< contacts.size();
 
 		UI.labelInfo->setText(QString(ss.str().c_str()));
+		
 	}
 
 	buildVisu();

@@ -32,6 +32,10 @@ namespace GraspStudio
     GraspQualityMeasureWrenchSpace::GraspQualityMeasureWrenchSpace(VirtualRobot::SceneObjectPtr object, float unitForce, float frictionConeCoeff, int frictionConeSamples)
         : GraspQualityMeasure(object, unitForce, frictionConeCoeff, frictionConeSamples)
     {
+	std::cout << "GraspQualityMeasureWrenchSpace" <<endl;
+	std::cout << frictionConeSamples << endl;
+	std::cout << frictionConeCoeff << endl;
+	std::cout << unitForce << endl;
         OWSCalculated = false;
         GWSCalculated = false;
         minOffsetOWS = 0.0f;
@@ -155,6 +159,7 @@ namespace GraspStudio
         }
 
         //Generate convex hull from rotated contact friction cones
+        std::cout << "hello there !!!!!!! " << std::endl;
         convexHullGWS = calculateConvexHull(conePoints);
         //calculateHullCenter(convexHullGWS, convexHullCenterGWS);
         convexHullCenterGWS = convexHullGWS->center;

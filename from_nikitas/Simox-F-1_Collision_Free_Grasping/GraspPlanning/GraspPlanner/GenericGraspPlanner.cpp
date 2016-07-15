@@ -15,7 +15,7 @@ namespace GraspStudio
 {
 
 
-    GenericGraspPlanner::GenericGraspPlanner(VirtualRobot::GraspSetPtr graspSet, GraspStudio::GraspQualityMeasurePtr graspQuality, GraspStudio::ApproachMovementGeneratorPtr approach, float minQuality, bool forceClosure)
+    GenericGraspPlanner::GenericGraspPlanner(VirtualRobot::GraspSetPtr graspSet, GraspStudio::GraspQualityMeasurePtr graspQuality, GraspStudio::ApproachMovementGeneratorPtr approach, float minQuality, bool forceClosure, int prefered_contact_points, float frictionCoef)
         : GraspPlanner(graspSet), graspQuality(graspQuality), approach(approach), minQuality(minQuality), forceClosure(forceClosure)
     {
         THROW_VR_EXCEPTION_IF(!graspQuality, "NULL grasp quality...");
@@ -27,6 +27,9 @@ namespace GraspStudio
         THROW_VR_EXCEPTION_IF(!eef, "NULL eef in approach...");
         THROW_VR_EXCEPTION_IF(!graspSet, "NULL graspSet...");
         verbose = true;
+        this->prefered_contact_points = prefered_contact_points;
+	this->frictionCoef = frictionCoef;
+        
     }
 
     GenericGraspPlanner::~GenericGraspPlanner()
@@ -121,7 +124,7 @@ namespace GraspStudio
 }
         }
 
-        if (contacts.size() < 2)
+        if (contacts.size() < this->prefered_contact_points)
         {
             if (verbose)
             {
