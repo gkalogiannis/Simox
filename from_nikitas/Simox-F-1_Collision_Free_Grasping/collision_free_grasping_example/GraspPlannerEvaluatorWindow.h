@@ -55,7 +55,6 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 
 		void closeEEF();
-		void OpenScene();
 		void openEEF();
 		void colModel();
 		void frictionConeVisu();

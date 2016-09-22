@@ -1,0 +1,8 @@
+<ManipulationObject name='Amita'>
+	<Visualization>
+          <File type='inventor'>../wrl/cup_red.wrl</File>
+	</Visualization>
+	<CollisionModel>
+          <File type='inventor'>../wrl/cup_red.wrl</File>
+	</CollisionModel>
+</ManipulationObject>

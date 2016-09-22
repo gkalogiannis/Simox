@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1212</width>
+    <width>1209</width>
     <height>882</height>
    </rect>
   </property>
@@ -45,9 +45,9 @@
       <widget class="QPushButton" name="pushButtonReset">
        <property name="geometry">
         <rect>
-         <x>170</x>
-         <y>0</y>
-         <width>71</width>
+         <x>50</x>
+         <y>20</y>
+         <width>171</width>
          <height>28</height>
         </rect>
        </property>
@@ -59,7 +59,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>600</y>
+         <y>630</y>
          <width>81</width>
          <height>16</height>
         </rect>
@@ -72,7 +72,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>620</y>
+         <y>660</y>
          <width>141</width>
          <height>17</height>
         </rect>
@@ -85,7 +85,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>640</y>
+         <y>680</y>
          <width>141</width>
          <height>17</height>
         </rect>
@@ -98,7 +98,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>660</y>
+         <y>700</y>
          <width>141</width>
          <height>17</height>
         </rect>
@@ -111,7 +111,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>350</y>
+         <y>270</y>
          <width>141</width>
          <height>31</height>
         </rect>
@@ -124,9 +124,9 @@
        <property name="geometry">
         <rect>
          <x>40</x>
-         <y>30</y>
+         <y>70</y>
          <width>181</width>
-         <height>281</height>
+         <height>201</height>
         </rect>
        </property>
        <property name="title">
@@ -135,8 +135,8 @@
        <widget class="QCheckBox" name="checkBoxFoceClosure">
         <property name="geometry">
          <rect>
-          <x>19</x>
-          <y>151</y>
+          <x>30</x>
+          <y>170</y>
           <width>171</width>
           <height>17</height>
          </rect>
@@ -178,7 +178,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>64</y>
+          <y>70</y>
           <width>211</width>
           <height>16</height>
          </rect>
@@ -191,7 +191,7 @@
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>83</y>
+          <y>90</y>
           <width>111</width>
           <height>22</height>
          </rect>
@@ -210,7 +210,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>107</y>
+          <y>120</y>
           <width>171</width>
           <height>16</height>
          </rect>
@@ -223,7 +223,7 @@
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>126</y>
+          <y>140</y>
           <width>111</width>
           <height>22</height>
          </rect>
@@ -238,80 +238,13 @@
          <double>0.001000000000000</double>
         </property>
        </widget>
-       <widget class="QLabel" name="label_14">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>174</y>
-          <width>171</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Contact Points (min)</string>
-        </property>
-       </widget>
-       <widget class="QSpinBox" name="Contact_Points_Number">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>194</y>
-          <width>111</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10000000</number>
-        </property>
-        <property name="value">
-         <number>2</number>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_15">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>220</y>
-          <width>171</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Friction Coef (min)</string>
-        </property>
-       </widget>
-       <widget class="QDoubleSpinBox" name="Friction_Coef_Number">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>240</y>
-          <width>111</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="decimals">
-         <number>2</number>
-        </property>
-        <property name="maximum">
-         <double>1.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.001000000000000</double>
-        </property>
-        <property name="value">
-         <double>0.350000000000000</double>
-        </property>
-       </widget>
       </widget>
       <widget class="QPushButton" name="pushButtonSave">
        <property name="geometry">
         <rect>
-         <x>170</x>
-         <y>380</y>
-         <width>71</width>
+         <x>60</x>
+         <y>350</y>
+         <width>141</width>
          <height>31</height>
         </rect>
        </property>
@@ -322,8 +255,8 @@
       <widget class="QPushButton" name="pushButtonClose">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>380</y>
+         <x>60</x>
+         <y>310</y>
          <width>71</width>
          <height>31</height>
         </rect>
@@ -335,8 +268,8 @@
       <widget class="QPushButton" name="pushButtonOpen">
        <property name="geometry">
         <rect>
-         <x>80</x>
-         <y>380</y>
+         <x>130</x>
+         <y>310</y>
          <width>71</width>
          <height>31</height>
         </rect>
@@ -349,9 +282,9 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>710</y>
+         <y>750</y>
          <width>221</width>
-         <height>101</height>
+         <height>61</height>
         </rect>
        </property>
        <property name="text">
@@ -365,7 +298,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>680</y>
+         <y>720</y>
          <width>141</width>
          <height>17</height>
         </rect>
@@ -498,7 +431,7 @@
        <property name="geometry">
         <rect>
          <x>7</x>
-         <y>420</y>
+         <y>400</y>
          <width>241</width>
          <height>20</height>
         </rect>
@@ -537,51 +470,6 @@
         </rect>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButtonOpenScene">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>0</y>
-         <width>151</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Load Scene...</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_16">
-       <property name="geometry">
-        <rect>
-         <x>50</x>
-         <y>300</y>
-         <width>171</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Friction Cone Samples</string>
-       </property>
-      </widget>
-      <widget class="QSpinBox" name="FricitonConeSamples">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>320</y>
-         <width>111</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="minimum">
-        <number>0</number>
-       </property>
-       <property name="maximum">
-        <number>10000000</number>
-       </property>
-       <property name="value">
-        <number>8</number>
-       </property>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -591,7 +479,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1212</width>
+     <width>1209</width>
      <height>25</height>
     </rect>
    </property>

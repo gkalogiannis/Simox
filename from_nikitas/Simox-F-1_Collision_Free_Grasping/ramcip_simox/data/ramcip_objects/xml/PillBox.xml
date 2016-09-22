@@ -1,0 +1,8 @@
+<ManipulationObject name='PillPox'>
+	<Visualization>
+          <File type='inventor'>../wrl/pill_box.wrl</File>
+	</Visualization>
+	<CollisionModel>
+          <File type='inventor'>../wrl/pill_box.wrl</File>
+	</CollisionModel>
+</ManipulationObject>
