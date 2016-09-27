@@ -32,6 +32,9 @@
 #include <Inventor/nodes/SoScale.h>
 
 #include <sstream>
+#include <fstream>
+#include <string>
+#include <cstring>
 using namespace std;
 using namespace VirtualRobot;
 using namespace GraspStudio;
@@ -124,9 +127,107 @@ void GraspPlannerEvaluatorWindow::setupUI()
 	connect(UI.checkBoxGrasps, SIGNAL(clicked()), this, SLOT(showGrasps()));
 }
 
+float GraspPlannerEvaluatorWindow:: PerdurbationGetTheValues(std::string line, int i)
+{
+                      int temp =0;
+                      Eigen::Vector3f rotation_matrix;
+
+                      char * cstr = new char [line.length()+1];
+                      std::strcpy (cstr, line.c_str());
+                      char * p = std::strtok (cstr," ");
+                      while (p!=0)
+                      {
+                        if(temp == 3)
+                        {
+                          return 0;
+                        }
+                        else
+                        {
+                          std::cout<<temp<<","<<i<<" "<<p<<'\n';
+                   //     std::cout << p << '\n';
+                        std::string::size_type sz;     // alias of size_t
+              //          rotation_matrix(temp,i) = std::stof(p,&sz);
+                        p = std::strtok(NULL," ");
+                        temp++;
+                        }
+                      }
+                      delete[] cstr;
+                      
+                      return 0.0f;
+}
+
+void GraspPlannerEvaluatorWindow::CreatePerdurbationList()
+{
+  string line,temp;
+int n_line =0;
+  int count =0;
+    ifstream myfile ("../../data/perdurbation/cup_evaluation");
+      if (myfile.is_open())
+          {
+              while ( getline (myfile,line) )
+              {
+                   // cout << line << '\n';
+                    if (line == "detected_pose: ")
+                    {
+                      count++;
+                      getline(myfile,line);
+                      cout << count <<endl; 
+                      cout << line <<endl;
+
+                      PerdurbationGetTheValues(line,n_line);
+
+                      getline(myfile,line);
+                      n_line++;
+                      PerdurbationGetTheValues(line,n_line);
+                      n_line++; 
+                      getline(myfile,line);
+                      PerdurbationGetTheValues(line,n_line); 
+                      getline(myfile,line);
+                    }
+                      if (line == "ground_truth_pose: ")
+                    {
+                    }
+                    temp=line;temp+=" \n";
+                //    PerdurbationList.push_back(temp);
+                  }
+              myfile.close();
+            }
+
+        else cout << "Unable to open file"; 
+
+}
+int GraspPlannerEvaluatorWindow::PerdurbationGetNumberOfEvaluation()
+{
+    string line;
+    int number_of_eval;
+    number_of_eval = 0;
+    ifstream myfile ("../../data/perdurbation/cup_evaluation");
+      if (myfile.is_open())
+          {
+              while ( getline (myfile,line) )
+              {
+                if (line=="detected_pose: "){
+                number_of_eval=number_of_eval+1;}
+              }
+              myfile.close();
+              return number_of_eval;
+          }
+
+        else {
+          cout << "Unable to open file"; 
+          return 0;
+        }
+}
+
 void GraspPlannerEvaluatorWindow::SetObjectToGroundTruth()
 {
   std::cout<< "Set object to ground truth" <<std::endl;
+  cout<< PerdurbationGetNumberOfEvaluation() <<std::endl;
+  CreatePerdurbationList(); 
+  // for (int t=0;t<PerdurbationList.size();++t)
+  // {
+            // cout<<PerdurbationList.at(t);
+  /* } */
 }
 
 void GraspPlannerEvaluatorWindow::resetSceneryAll()

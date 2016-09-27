@@ -1,8 +1,0 @@
-<ManipulationObject name='Remote'>
-	<Visualization>
-          <File type='inventor'>../wrl/remote.wrl</File>
-	</Visualization>
-	<CollisionModel>
-          <File type='inventor'>../wrl/remote.wrl</File>
-	</CollisionModel>
-</ManipulationObject>

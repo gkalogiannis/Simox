@@ -33,7 +33,7 @@
 #include <vector>
 
 #include "ui_GraspPlannerEvaluator.h"
-
+using namespace std;
 class GraspPlannerEvaluatorWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -52,7 +52,7 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 		void closeEvent(QCloseEvent* event);
 
 		void resetSceneryAll();
-                
+                void CreatePerdurbationList();
                 void SetObjectToGroundTruth();
 		void closeEEF();
 		void openEEF();
@@ -112,7 +112,11 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 
 		VirtualRobot::EndEffector::ContactInfoVector contacts;
-
+                
+                std::vector<Eigen::Vector3f>  PerdurbationRotationlist;
+//                std::vector<std::vector> PerdurbationTranslationList;
+                int PerdurbationGetNumberOfEvaluation();
+                float PerdurbationGetTheValues(std::string line, int i);
 
 		std::string robotName;
 		std::string objectName;
