@@ -113,9 +113,9 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 		VirtualRobot::EndEffector::ContactInfoVector contacts;
                 
-                std::vector<Eigen::Vector3f>  PerdurbationRotationlist;
-//                std::vector<std::vector> PerdurbationTranslationList;
+                std::vector<Eigen::Matrix3f>  PerdurbationRotationList;
                 int PerdurbationGetNumberOfEvaluation();
+                void PrintThePerdurbationList();
                 float PerdurbationGetTheValues(std::string line, int i);
 
 		std::string robotName;

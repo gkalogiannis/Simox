@@ -35,6 +35,10 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include <cstdlib>
+#include <boost/lexical_cast.hpp>
+
+using boost::lexical_cast;
 using namespace std;
 using namespace VirtualRobot;
 using namespace GraspStudio;
@@ -130,36 +134,50 @@ void GraspPlannerEvaluatorWindow::setupUI()
 float GraspPlannerEvaluatorWindow:: PerdurbationGetTheValues(std::string line, int i)
 {
                       int temp =0;
-                      Eigen::Vector3f rotation_matrix;
-
+                      Eigen::Matrix3f rotation_matrix;
                       char * cstr = new char [line.length()+1];
                       std::strcpy (cstr, line.c_str());
                       char * p = std::strtok (cstr," ");
                       while (p!=0)
                       {
-                        if(temp == 3)
+                        if(temp >= 3)
                         {
+                         /*  std::cout<<"Translation"<<endl; */
+                          // std::string temp_value(p);
+                          // float value = lexical_cast<float>(temp_value);//std::atof(temp_value.c_str());
+                          // std::cout<<"("<<i<<","<<temp<<")="<<value<<'\n';
+
                           return 0;
                         }
                         else
                         {
-                          std::cout<<temp<<","<<i<<" "<<p<<'\n';
-                   //     std::cout << p << '\n';
-                        std::string::size_type sz;     // alias of size_t
-              //          rotation_matrix(temp,i) = std::stof(p,&sz);
-                        p = std::strtok(NULL," ");
-                        temp++;
+                          std::string temp_value(p);
+                          float value = lexical_cast<float>(temp_value);//std::atof(temp_value.c_str());
+                          std::cout<<"("<<i<<","<<temp<<")="<<value<<'\n';
+                          rotation_matrix(i,temp) =0.0f;
+                          rotation_matrix(i,temp) = value;
+                          p = std::strtok(NULL," ");
+                          if (temp==2 && i==2)
+                          {
+                            std::cout<<rotation_matrix<<endl;
+                            std::cout<<"------------"<<endl;
+                            PerdurbationRotationList.push_back(rotation_matrix);
+                          }
+                          temp++;
                         }
+                        
+                     //   cout<<rotation_matrix<<endl;
+                      //PerdurbationRotationList.push_back(rotation_matrix);
                       }
-                      delete[] cstr;
                       
+                      delete[] cstr;
                       return 0.0f;
 }
 
 void GraspPlannerEvaluatorWindow::CreatePerdurbationList()
 {
   string line,temp;
-int n_line =0;
+
   int count =0;
     ifstream myfile ("../../data/perdurbation/cup_evaluation");
       if (myfile.is_open())
@@ -171,11 +189,10 @@ int n_line =0;
                     {
                       count++;
                       getline(myfile,line);
-                      cout << count <<endl; 
-                      cout << line <<endl;
-
+                      //cout << count <<endl; 
+                      //cout << line <<endl;
+                      int n_line =0;
                       PerdurbationGetTheValues(line,n_line);
-
                       getline(myfile,line);
                       n_line++;
                       PerdurbationGetTheValues(line,n_line);
@@ -190,6 +207,12 @@ int n_line =0;
                     temp=line;temp+=" \n";
                 //    PerdurbationList.push_back(temp);
                   }
+              std::cout<<"----------Final-----------"<<endl;
+              for (int i=0; i<PerdurbationRotationList.size(); i++)
+              {
+                std::cout<<i<<endl;
+                std::cout << PerdurbationRotationList[i] << '\n'<<std::endl;
+              }
               myfile.close();
             }
 
