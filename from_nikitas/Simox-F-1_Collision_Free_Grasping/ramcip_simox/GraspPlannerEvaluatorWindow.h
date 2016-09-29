@@ -52,7 +52,7 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 		void closeEvent(QCloseEvent* event);
 
 		void resetSceneryAll();
-                void CreatePerdurbationList();
+                void CreatePerdurbationLists();
                 void SetObjectToGroundTruth();
 		void closeEEF();
 		void openEEF();
@@ -112,11 +112,12 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 
 		VirtualRobot::EndEffector::ContactInfoVector contacts;
-                
-                std::vector<Eigen::Matrix3f>  PerdurbationRotationList;
+               
+                std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationDetectedPoseList;
+                std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationGroundTrPoseList;
                 int PerdurbationGetNumberOfEvaluation();
-                void PrintThePerdurbationList();
-                float PerdurbationGetTheValues(std::string line, int i);
+                void PrintThePerdurbationLists();
+                Eigen::Matrix<float,3,3,1> PerdurbationGetTheRotationMatrix(Eigen::Matrix<float,3,3,1> rotation_matrix ,std::string line, int i);
 
 		std::string robotName;
 		std::string objectName;

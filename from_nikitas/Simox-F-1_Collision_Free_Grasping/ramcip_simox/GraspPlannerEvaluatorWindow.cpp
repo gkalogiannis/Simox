@@ -131,92 +131,88 @@ void GraspPlannerEvaluatorWindow::setupUI()
 	connect(UI.checkBoxGrasps, SIGNAL(clicked()), this, SLOT(showGrasps()));
 }
 
-float GraspPlannerEvaluatorWindow:: PerdurbationGetTheValues(std::string line, int i)
+Eigen::Matrix<float,3,3,1> GraspPlannerEvaluatorWindow:: PerdurbationGetTheRotationMatrix(Eigen::Matrix<float,3,3,1> rotation_matrix ,std::string line, int i)
 {
                       int temp =0;
-                      Eigen::Matrix3f rotation_matrix;
                       char * cstr = new char [line.length()+1];
                       std::strcpy (cstr, line.c_str());
                       char * p = std::strtok (cstr," ");
-                      while (p!=0)
+                      while (p!=0 && temp<3)
                       {
-                        if(temp >= 3)
-                        {
-                         /*  std::cout<<"Translation"<<endl; */
-                          // std::string temp_value(p);
-                          // float value = lexical_cast<float>(temp_value);//std::atof(temp_value.c_str());
-                          // std::cout<<"("<<i<<","<<temp<<")="<<value<<'\n';
-
-                          return 0;
-                        }
-                        else
-                        {
                           std::string temp_value(p);
                           float value = lexical_cast<float>(temp_value);//std::atof(temp_value.c_str());
-                          std::cout<<"("<<i<<","<<temp<<")="<<value<<'\n';
-                          rotation_matrix(i,temp) =0.0f;
+                          //std::cout<<"("<<i<<","<<temp<<")="<<value<<'\n';
                           rotation_matrix(i,temp) = value;
                           p = std::strtok(NULL," ");
-                          if (temp==2 && i==2)
-                          {
-                            std::cout<<rotation_matrix<<endl;
-                            std::cout<<"------------"<<endl;
-                            PerdurbationRotationList.push_back(rotation_matrix);
-                          }
                           temp++;
-                        }
-                        
-                     //   cout<<rotation_matrix<<endl;
-                      //PerdurbationRotationList.push_back(rotation_matrix);
                       }
                       
                       delete[] cstr;
-                      return 0.0f;
+                      return rotation_matrix;
 }
 
-void GraspPlannerEvaluatorWindow::CreatePerdurbationList()
+void GraspPlannerEvaluatorWindow::CreatePerdurbationLists()
 {
   string line,temp;
-
-  int count =0;
     ifstream myfile ("../../data/perdurbation/cup_evaluation");
       if (myfile.is_open())
           {
               while ( getline (myfile,line) )
               {
-                   // cout << line << '\n';
+                      Eigen::Matrix<float, 3,3,1> rotation_matrix;
+                      rotation_matrix = Eigen::Matrix<float,3,3,1>::Zero(3,3); 
                     if (line == "detected_pose: ")
                     {
-                      count++;
+
                       getline(myfile,line);
-                      //cout << count <<endl; 
-                      //cout << line <<endl;
                       int n_line =0;
-                      PerdurbationGetTheValues(line,n_line);
+                      rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
                       getline(myfile,line);
                       n_line++;
-                      PerdurbationGetTheValues(line,n_line);
+                      rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
                       n_line++; 
                       getline(myfile,line);
-                      PerdurbationGetTheValues(line,n_line); 
+                      rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
                       getline(myfile,line);
+                      PerdurbationRotationDetectedPoseList.push_back(rotation_matrix);
                     }
-                      if (line == "ground_truth_pose: ")
+                      if (line == "ground truth pose: ")
                     {
+                      getline(myfile,line);
+                      int n_line =0;
+                      rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      getline(myfile,line);
+                      n_line++;
+                      rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      n_line++; 
+                      getline(myfile,line);
+                      rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      getline(myfile,line);
+                      PerdurbationRotationGroundTrPoseList.push_back(rotation_matrix);
+
                     }
                     temp=line;temp+=" \n";
-                //    PerdurbationList.push_back(temp);
                   }
-              std::cout<<"----------Final-----------"<<endl;
-              for (int i=0; i<PerdurbationRotationList.size(); i++)
-              {
-                std::cout<<i<<endl;
-                std::cout << PerdurbationRotationList[i] << '\n'<<std::endl;
-              }
               myfile.close();
             }
 
         else cout << "Unable to open file"; 
+
+}
+void GraspPlannerEvaluatorWindow::PrintThePerdurbationLists()
+{
+              std::cout<<"----------Detected Poses-----------"<<endl; 
+              for (int i=0; i<PerdurbationRotationDetectedPoseList.size(); i++)
+              {
+                std::cout<<i<<endl;
+                std::cout << PerdurbationRotationDetectedPoseList[i] << '\n'<<std::endl;
+              }
+              std::cout<<"--------Ground Truth Poses---------"<<endl;
+              for (int i=0; i<PerdurbationRotationGroundTrPoseList.size(); i++)
+              {
+                std::cout<<i<<endl;
+                std::cout << PerdurbationRotationGroundTrPoseList[i] << '\n'<<std::endl;
+              } 
 
 }
 int GraspPlannerEvaluatorWindow::PerdurbationGetNumberOfEvaluation()
@@ -246,11 +242,8 @@ void GraspPlannerEvaluatorWindow::SetObjectToGroundTruth()
 {
   std::cout<< "Set object to ground truth" <<std::endl;
   cout<< PerdurbationGetNumberOfEvaluation() <<std::endl;
-  CreatePerdurbationList(); 
-  // for (int t=0;t<PerdurbationList.size();++t)
-  // {
-            // cout<<PerdurbationList.at(t);
-  /* } */
+  CreatePerdurbationLists(); 
+  PrintThePerdurbationLists();
 }
 
 void GraspPlannerEvaluatorWindow::resetSceneryAll()
