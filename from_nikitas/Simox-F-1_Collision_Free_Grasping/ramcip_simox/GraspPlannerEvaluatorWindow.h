@@ -115,10 +115,12 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
                
                 std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationDetectedPoseList;
                 std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationGroundTrPoseList;
+                std::vector<Eigen::Vector3f> PerdurbationTranslationDetectedPoseList;
+                std::vector<Eigen::Vector3f> PerdurbationTranslationGroundTrPoseList;
                 int PerdurbationGetNumberOfEvaluation();
                 void PrintThePerdurbationLists();
                 Eigen::Matrix<float,3,3,1> PerdurbationGetTheRotationMatrix(Eigen::Matrix<float,3,3,1> rotation_matrix ,std::string line, int i);
-
+                Eigen::Vector3f PerdurbationGetTheTranslationVector(Eigen::Vector3f translation_vector, std::string line, int i);
 		std::string robotName;
 		std::string objectName;
 		std::string eefName;

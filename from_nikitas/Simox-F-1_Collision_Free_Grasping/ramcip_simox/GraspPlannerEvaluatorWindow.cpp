@@ -140,7 +140,7 @@ Eigen::Matrix<float,3,3,1> GraspPlannerEvaluatorWindow:: PerdurbationGetTheRotat
                       while (p!=0 && temp<3)
                       {
                           std::string temp_value(p);
-                          float value = lexical_cast<float>(temp_value);//std::atof(temp_value.c_str());
+                          float value = lexical_cast<float>(temp_value);
                           //std::cout<<"("<<i<<","<<temp<<")="<<value<<'\n';
                           rotation_matrix(i,temp) = value;
                           p = std::strtok(NULL," ");
@@ -150,7 +150,27 @@ Eigen::Matrix<float,3,3,1> GraspPlannerEvaluatorWindow:: PerdurbationGetTheRotat
                       delete[] cstr;
                       return rotation_matrix;
 }
-
+Eigen::Vector3f GraspPlannerEvaluatorWindow:: PerdurbationGetTheTranslationVector(Eigen::Vector3f translation_vector, std::string line, int i )
+  {
+                      int temp =0;
+                      char * cstr = new char [line.length()+1];
+                      std::strcpy (cstr, line.c_str());
+                      char * p = std::strtok (cstr," ");
+                      while (p!=0)
+                      {
+                          std::string temp_value(p);
+                          float value = lexical_cast<float>(temp_value);
+                          if (temp ==3)
+                          {
+                          //std::cout<<"("<<i<<","<<temp<<")="<<value<<'\n';
+                          translation_vector(i) = value;
+                          }
+                          p = std::strtok(NULL," ");
+                          temp++;
+                      }
+                      delete[] cstr;
+                      return translation_vector;
+  }
 void GraspPlannerEvaluatorWindow::CreatePerdurbationLists()
 {
   string line,temp;
@@ -160,35 +180,47 @@ void GraspPlannerEvaluatorWindow::CreatePerdurbationLists()
               while ( getline (myfile,line) )
               {
                       Eigen::Matrix<float, 3,3,1> rotation_matrix;
-                      rotation_matrix = Eigen::Matrix<float,3,3,1>::Zero(3,3); 
+                      rotation_matrix = Eigen::Matrix<float,3,3,1>::Zero(3,3);
+                      Eigen::Vector3f translation_vector;
+                      translation_vector = Eigen::Vector3f::Zero(); 
                     if (line == "detected_pose: ")
                     {
 
                       getline(myfile,line);
                       int n_line =0;
                       rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      translation_vector = PerdurbationGetTheTranslationVector(translation_vector, line, n_line);
                       getline(myfile,line);
                       n_line++;
                       rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      translation_vector = PerdurbationGetTheTranslationVector(translation_vector, line, n_line);
                       n_line++; 
                       getline(myfile,line);
                       rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      translation_vector = PerdurbationGetTheTranslationVector(translation_vector, line, n_line);
                       getline(myfile,line);
+                      //Push back the data
                       PerdurbationRotationDetectedPoseList.push_back(rotation_matrix);
+                      PerdurbationTranslationDetectedPoseList.push_back(translation_vector);
                     }
                       if (line == "ground truth pose: ")
                     {
                       getline(myfile,line);
                       int n_line =0;
                       rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      translation_vector = PerdurbationGetTheTranslationVector(translation_vector, line, n_line);
                       getline(myfile,line);
                       n_line++;
                       rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      translation_vector = PerdurbationGetTheTranslationVector(translation_vector, line, n_line);
                       n_line++; 
                       getline(myfile,line);
                       rotation_matrix = PerdurbationGetTheRotationMatrix(rotation_matrix, line,n_line);
+                      translation_vector = PerdurbationGetTheTranslationVector(translation_vector, line, n_line);
                       getline(myfile,line);
+                      //Push back the data
                       PerdurbationRotationGroundTrPoseList.push_back(rotation_matrix);
+                      PerdurbationTranslationGroundTrPoseList.push_back(translation_vector);
 
                     }
                     temp=line;temp+=" \n";
@@ -202,17 +234,34 @@ void GraspPlannerEvaluatorWindow::CreatePerdurbationLists()
 void GraspPlannerEvaluatorWindow::PrintThePerdurbationLists()
 {
               std::cout<<"----------Detected Poses-----------"<<endl; 
+              std::cout<<"-----------------------------------"<<endl;
+              std::cout<<"---------Rotation Matrix-----------"<<endl;
               for (int i=0; i<PerdurbationRotationDetectedPoseList.size(); i++)
               {
                 std::cout<<i<<endl;
                 std::cout << PerdurbationRotationDetectedPoseList[i] << '\n'<<std::endl;
               }
+              std::cout<<"---------Translation Vector-----------"<<endl;
+              for (int i=0; i<PerdurbationTranslationDetectedPoseList.size(); i++)
+              {
+                std::cout<<i<<endl;
+                std::cout << PerdurbationTranslationDetectedPoseList[i] << '\n'<<std::endl;
+              }
+
               std::cout<<"--------Ground Truth Poses---------"<<endl;
+              std::cout<<"-----------------------------------"<<endl;
+              std::cout<<"---------Rotation Matrix-----------"<<endl;
               for (int i=0; i<PerdurbationRotationGroundTrPoseList.size(); i++)
               {
                 std::cout<<i<<endl;
                 std::cout << PerdurbationRotationGroundTrPoseList[i] << '\n'<<std::endl;
               } 
+              std::cout<<"---------Translation Vector-----------"<<endl;
+              for (int i=0; i<PerdurbationTranslationGroundTrPoseList.size(); i++)
+              {
+                std::cout<<i<<endl;
+                std::cout << PerdurbationTranslationGroundTrPoseList[i] << '\n'<<std::endl;
+              }
 
 }
 int GraspPlannerEvaluatorWindow::PerdurbationGetNumberOfEvaluation()
@@ -240,7 +289,6 @@ int GraspPlannerEvaluatorWindow::PerdurbationGetNumberOfEvaluation()
 
 void GraspPlannerEvaluatorWindow::SetObjectToGroundTruth()
 {
-  std::cout<< "Set object to ground truth" <<std::endl;
   cout<< PerdurbationGetNumberOfEvaluation() <<std::endl;
   CreatePerdurbationLists(); 
   PrintThePerdurbationLists();
