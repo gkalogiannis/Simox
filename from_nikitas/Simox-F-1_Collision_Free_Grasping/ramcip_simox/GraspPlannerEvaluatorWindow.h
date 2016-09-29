@@ -112,12 +112,21 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 
 		VirtualRobot::EndEffector::ContactInfoVector contacts;
+<<<<<<< HEAD
                
                 std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationDetectedPoseList;
                 std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationGroundTrPoseList;
                 int PerdurbationGetNumberOfEvaluation();
                 void PrintThePerdurbationLists();
                 Eigen::Matrix<float,3,3,1> PerdurbationGetTheRotationMatrix(Eigen::Matrix<float,3,3,1> rotation_matrix ,std::string line, int i);
+=======
+                
+                std::vector<Eigen::Matrix<float,3,3,1> >  PerdurbationRotationDetectedList;
+                std::vector<Eigen::Matrix<float,3,3,1> >  PerdurbationRotationGroundTruthList;
+                int PerdurbationGetNumberOfEvaluation();
+                void PrintThePerdurbationData();
+                void PerdurbationGetTheValues(std::string line, int i, int type);
+>>>>>>> 07281f96bbfa743ffb2f13cab18cc116bb061062
 
 		std::string robotName;
 		std::string objectName;
