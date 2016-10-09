@@ -23,6 +23,9 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <zorder>groupBox_1</zorder>
+      <zorder>groupBox_1</zorder>
+      <zorder>labelEvaluationNo</zorder>
      </widget>
     </item>
     <item row="0" column="1">
@@ -46,7 +49,7 @@
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>20</y>
+         <y>0</y>
          <width>171</width>
          <height>28</height>
         </rect>
@@ -59,8 +62,8 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>630</y>
-         <width>81</width>
+         <y>510</y>
+         <width>101</width>
          <height>16</height>
         </rect>
        </property>
@@ -71,9 +74,9 @@
       <widget class="QCheckBox" name="checkBoxColModel">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>660</y>
-         <width>141</width>
+         <x>0</x>
+         <y>530</y>
+         <width>131</width>
          <height>17</height>
         </rect>
        </property>
@@ -84,9 +87,9 @@
       <widget class="QCheckBox" name="checkBoxCones">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>680</y>
-         <width>141</width>
+         <x>130</x>
+         <y>530</y>
+         <width>121</width>
          <height>17</height>
         </rect>
        </property>
@@ -97,8 +100,8 @@
       <widget class="QCheckBox" name="checkBoxGrasps">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>700</y>
+         <x>0</x>
+         <y>550</y>
          <width>141</width>
          <height>17</height>
         </rect>
@@ -111,7 +114,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>260</y>
+         <y>190</y>
          <width>141</width>
          <height>31</height>
         </rect>
@@ -124,9 +127,9 @@
        <property name="geometry">
         <rect>
          <x>40</x>
-         <y>70</y>
+         <y>30</y>
          <width>181</width>
-         <height>201</height>
+         <height>161</height>
         </rect>
        </property>
        <property name="title">
@@ -136,7 +139,7 @@
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>170</y>
+          <y>140</y>
           <width>171</width>
           <height>17</height>
          </rect>
@@ -178,7 +181,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
+          <y>60</y>
           <width>211</width>
           <height>16</height>
          </rect>
@@ -191,7 +194,7 @@
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>90</y>
+          <y>80</y>
           <width>111</width>
           <height>22</height>
          </rect>
@@ -210,7 +213,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>120</y>
+          <y>100</y>
           <width>171</width>
           <height>16</height>
          </rect>
@@ -223,7 +226,7 @@
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>140</y>
+          <y>120</y>
           <width>111</width>
           <height>22</height>
          </rect>
@@ -243,7 +246,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>320</y>
+         <y>250</y>
          <width>141</width>
          <height>31</height>
         </rect>
@@ -256,7 +259,7 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>290</y>
+         <y>220</y>
          <width>71</width>
          <height>31</height>
         </rect>
@@ -269,7 +272,7 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>290</y>
+         <y>220</y>
          <width>71</width>
          <height>31</height>
         </rect>
@@ -282,9 +285,9 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>750</y>
+         <y>590</y>
          <width>221</width>
-         <height>61</height>
+         <height>151</height>
         </rect>
        </property>
        <property name="text">
@@ -297,8 +300,8 @@
       <widget class="QCheckBox" name="checkBoxHighlight">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>720</y>
+         <x>130</x>
+         <y>550</y>
          <width>141</width>
          <height>17</height>
         </rect>
@@ -311,7 +314,7 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>510</y>
+         <y>470</y>
          <width>121</width>
          <height>31</height>
         </rect>
@@ -320,11 +323,11 @@
         <string>Reset Poses</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButtonPerturbedGrasp">
+      <widget class="QPushButton" name="pushButtonPerturbatedGrasp">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>510</y>
+         <y>470</y>
          <width>121</width>
          <height>31</height>
         </rect>
@@ -336,37 +339,11 @@
         <string>Perturbed Grasp</string>
        </property>
       </widget>
-      <widget class="QLabel" name="labelPertAngle">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>550</y>
-         <width>101</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Pert. Angle</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>550</y>
-         <width>111</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Pert. Distance</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="pushButtonNormalGrasp">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>460</y>
+         <y>440</y>
          <width>121</width>
          <height>31</height>
         </rect>
@@ -379,7 +356,7 @@
        <property name="geometry">
         <rect>
          <x>200</x>
-         <y>460</y>
+         <y>440</y>
          <width>41</width>
          <height>31</height>
         </rect>
@@ -392,7 +369,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>430</y>
+         <y>420</y>
          <width>101</width>
          <height>17</height>
         </rect>
@@ -405,7 +382,7 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>430</y>
+         <y>420</y>
          <width>41</width>
          <height>17</height>
         </rect>
@@ -417,8 +394,8 @@
       <widget class="QLabel" name="label_5">
        <property name="geometry">
         <rect>
-         <x>200</x>
-         <y>430</y>
+         <x>190</x>
+         <y>419</y>
          <width>51</width>
          <height>20</height>
         </rect>
@@ -431,7 +408,7 @@
        <property name="geometry">
         <rect>
          <x>7</x>
-         <y>400</y>
+         <y>271</y>
          <width>241</width>
          <height>20</height>
         </rect>
@@ -444,45 +421,226 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>460</y>
+         <y>440</y>
          <width>60</width>
          <height>31</height>
         </rect>
        </property>
       </widget>
-      <widget class="QDoubleSpinBox" name="doubleSpinBoxPertAngle">
+      <widget class="QPushButton" name="pushButtonParsePerdurbationFile">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>570</y>
-         <width>91</width>
-         <height>27</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QDoubleSpinBox" name="doubleSpinBoxPertDistance">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>570</y>
-         <width>91</width>
-         <height>27</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonGroundTruth">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>350</y>
-         <width>98</width>
+         <x>40</x>
+         <y>283</y>
+         <width>181</width>
          <height>27</height>
         </rect>
        </property>
        <property name="text">
-        <string>GroundTruth</string>
+        <string>Parse Perdurbation Data</string>
        </property>
       </widget>
+      <widget class="QSpinBox" name="spinBoxPerdurbation">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>310</y>
+         <width>60</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>315</y>
+         <width>111</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of Pairs</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButtonSetToGroundTruthPose">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>365</y>
+         <width>171</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Set to Ground Truth</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>315</y>
+         <width>51</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Out of</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBoxPerdurbationRotation">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>341</y>
+         <width>97</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Rotation</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBoxPerdurbationTranslation">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>341</y>
+         <width>111</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Translation</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="labelEvaluationNo">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>310</y>
+         <width>21</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButtonSetToDetectedPose">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>390</y>
+         <width>171</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Set to Detected</string>
+       </property>
+      </widget>
+      <widget class="Line" name="line_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>410</y>
+         <width>241</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="Line" name="line_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>496</y>
+         <width>241</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="Line" name="line_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>570</y>
+         <width>241</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>680</y>
+         <width>67</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Status :</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="StatusLabel">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>680</y>
+         <width>131</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Normal</string>
+       </property>
+      </widget>
+      <zorder>pushButtonReset</zorder>
+      <zorder>label_10</zorder>
+      <zorder>checkBoxColModel</zorder>
+      <zorder>checkBoxCones</zorder>
+      <zorder>checkBoxGrasps</zorder>
+      <zorder>pushButtonPlan</zorder>
+      <zorder>groupBox_2</zorder>
+      <zorder>pushButtonSave</zorder>
+      <zorder>pushButtonClose</zorder>
+      <zorder>pushButtonOpen</zorder>
+      <zorder>labelInfo</zorder>
+      <zorder>checkBoxHighlight</zorder>
+      <zorder>pushButtonResetPose</zorder>
+      <zorder>pushButtonPerturbatedGrasp</zorder>
+      <zorder>pushButtonNormalGrasp</zorder>
+      <zorder>labelGraspNum</zorder>
+      <zorder>label_3</zorder>
+      <zorder>label_4</zorder>
+      <zorder>label_5</zorder>
+      <zorder>line</zorder>
+      <zorder>spinBoxGraspNum</zorder>
+      <zorder>pushButtonParsePerdurbationFile</zorder>
+      <zorder>spinBoxPerdurbation</zorder>
+      <zorder>label_6</zorder>
+      <zorder>pushButtonSetToGroundTruthPose</zorder>
+      <zorder>label_7</zorder>
+      <zorder>checkBoxPerdurbationRotation</zorder>
+      <zorder>checkBoxPerdurbationTranslation</zorder>
+      <zorder>labelEvaluationNo</zorder>
+      <zorder>pushButtonSetToDetectedPose</zorder>
+      <zorder>line_2</zorder>
+      <zorder>line_3</zorder>
+      <zorder>line_4</zorder>
+      <zorder>StatusLabel</zorder>
+      <zorder>label</zorder>
      </widget>
     </item>
    </layout>

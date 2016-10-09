@@ -22,6 +22,7 @@
 #include <QtCore/QtGlobal>
 #include <QtGui/QtGui>
 #include <QtCore/QtCore>
+#include <QStandardItem>
 
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <Inventor/nodes/SoEventCallback.h>
@@ -53,7 +54,9 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 		void resetSceneryAll();
                 void CreatePerdurbationLists();
-                void SetObjectToGroundTruth();
+                void ParseThePerdurbationFile();
+                void SetToGroundTruthPose();
+                void SetToDetectedPose();
 		void closeEEF();
 		void openEEF();
 		void colModel();
@@ -68,8 +71,8 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 		static Eigen::Matrix3f rodriguesFormula(Eigen::Vector3f vector, float theta);
 		static Eigen::Matrix3f getSkewSymmetricMatrix(Eigen::Vector3f vector);
 
-		void perturbatedGrasp();
-		void perturbateObject();
+		void PerturbatedGrasp();
+		//void perturbateObject();
 		void resetPose();
 		void normalGrasp();
 		void moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops = 1000);
@@ -88,7 +91,6 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 		static void timerCB(void* data, SoSensor* sensor);
 		Ui::GraspPlannerEvaluator UI;
 		SoQtExaminerViewer* viewer; /*!< Viewer to display the 3D model of the robot and the environment. */
-
 		SoSeparator* sceneSep;
 		SoSeparator* sceneVisuSep;
 		SoSeparator* robotSep;
@@ -109,6 +111,8 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 		VirtualRobot::GraspSetPtr grasps;
 		int graspNumber;
+                bool set_to_detected_pose;
+                bool set_to_groundtr_pose;
 
 
 		VirtualRobot::EndEffector::ContactInfoVector contacts;

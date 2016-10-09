@@ -122,13 +122,17 @@ void GraspPlannerEvaluatorWindow::setupUI()
 	connect(UI.pushButtonOpen, SIGNAL(clicked()), this, SLOT(openEEF()));
 	connect(UI.pushButtonClose, SIGNAL(clicked()), this, SLOT(closeEEF()));
 	connect(UI.pushButtonNormalGrasp, SIGNAL(clicked()), this, SLOT(normalGrasp()));
-	connect(UI.pushButtonPerturbedGrasp, SIGNAL(clicked()), this, SLOT(perturbatedGrasp()));
 	connect(UI.pushButtonResetPose, SIGNAL(clicked()), this, SLOT(resetPose()));
-        connect(UI.pushButtonGroundTruth, SIGNAL(clicked()), this, SLOT(SetObjectToGroundTruth()));
+        connect(UI.pushButtonParsePerdurbationFile, SIGNAL(clicked()), this, SLOT(ParseThePerdurbationFile()));
+        connect(UI.pushButtonSetToGroundTruthPose, SIGNAL(clicked()), this, SLOT(SetToGroundTruthPose()));
+        connect(UI.pushButtonSetToDetectedPose, SIGNAL(clicked()), this, SLOT(SetToDetectedPose()));
+        connect(UI.pushButtonPerturbatedGrasp, SIGNAL(clicked()), this, SLOT(PerturbatedGrasp()));
 
 	connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
 	connect(UI.checkBoxCones, SIGNAL(clicked()), this, SLOT(frictionConeVisu()));
 	connect(UI.checkBoxGrasps, SIGNAL(clicked()), this, SLOT(showGrasps()));
+        set_to_detected_pose = false;
+        set_to_groundtr_pose = false;
 }
 
 Eigen::Matrix<float,3,3,1> GraspPlannerEvaluatorWindow:: PerdurbationGetTheRotationMatrix(Eigen::Matrix<float,3,3,1> rotation_matrix ,std::string line, int i)
@@ -287,11 +291,94 @@ int GraspPlannerEvaluatorWindow::PerdurbationGetNumberOfEvaluation()
         }
 }
 
-void GraspPlannerEvaluatorWindow::SetObjectToGroundTruth()
+void GraspPlannerEvaluatorWindow::ParseThePerdurbationFile()
 {
-  cout<< PerdurbationGetNumberOfEvaluation() <<std::endl;
+  std::stringstream ss;
+  ss << PerdurbationGetNumberOfEvaluation();
+  UI.labelEvaluationNo->setText(QString(ss.str().c_str()));
   CreatePerdurbationLists(); 
-  PrintThePerdurbationLists();
+  //PrintThePerdurbationLists();
+}
+void GraspPlannerEvaluatorWindow::SetToDetectedPose()
+{
+  std::cout<<"Setting to Detected Pose"<<endl;
+  int no_of_eval = UI.spinBoxPerdurbation->value();
+ 
+  resetPose();
+  if (no_of_eval != 0)
+  {
+      	Eigen::Matrix4f deltaPose;
+	deltaPose.setIdentity();
+     std::cout<<PerdurbationRotationDetectedPoseList[no_of_eval]<<endl;
+     std::cout<<PerdurbationTranslationDetectedPoseList[no_of_eval]<<endl;
+     if (UI.checkBoxPerdurbationRotation->isChecked() && UI.checkBoxPerdurbationTranslation->isChecked()) 
+     {
+
+        deltaPose.block(0,0,3,3) = PerdurbationRotationDetectedPoseList[no_of_eval];
+	deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
+
+     }
+     else if (UI.checkBoxPerdurbationRotation->isChecked())
+     {
+    deltaPose.block(0,0,3,3) = PerdurbationRotationDetectedPoseList[no_of_eval];
+
+     }
+     else if (UI.checkBoxPerdurbationTranslation->isChecked())
+     {
+	deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
+     }
+        std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+        std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
+	object->setGlobalPose(deltaPose*object->getGlobalPose());
+        set_to_detected_pose =true;
+        UI.StatusLabel->setText("Detected Pose");
+
+  }
+  else{
+    std::cout<<"Select Number of Evaluation First"<<endl;
+  set_to_detected_pose =false;}
+}
+void GraspPlannerEvaluatorWindow::SetToGroundTruthPose()
+{
+   std::cout<<"Setting to Ground Truth Pose"<<endl;
+  int no_of_eval = UI.spinBoxPerdurbation->value();
+  resetPose();
+  if (no_of_eval != 0)
+  {
+      	Eigen::Matrix4f deltaPose;
+	deltaPose.setIdentity();
+     std::cout<<PerdurbationRotationGroundTrPoseList[no_of_eval]<<endl;
+     std::cout<<PerdurbationTranslationGroundTrPoseList[no_of_eval]<<endl;
+     if (UI.checkBoxPerdurbationRotation->isChecked() && UI.checkBoxPerdurbationTranslation->isChecked()) 
+     {
+
+        deltaPose.block(0,0,3,3) = PerdurbationRotationGroundTrPoseList[no_of_eval];
+	deltaPose.block(0,3,3,1) = PerdurbationTranslationGroundTrPoseList[no_of_eval];
+
+     }
+     else if (UI.checkBoxPerdurbationRotation->isChecked())
+     {
+    deltaPose.block(0,0,3,3) = PerdurbationRotationGroundTrPoseList[no_of_eval];
+
+     }
+     else if (UI.checkBoxPerdurbationTranslation->isChecked())
+     {
+	deltaPose.block(0,3,3,1) = PerdurbationTranslationGroundTrPoseList[no_of_eval];
+     }
+     
+        std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+        std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
+	object->setGlobalPose(deltaPose*object->getGlobalPose());
+        set_to_groundtr_pose =true;
+        UI.StatusLabel->setText("Ground Truth Pose"); 
+
+  }
+  else{
+    std::cout<<"Select Number of Evaluation First"<<endl;
+  set_to_groundtr_pose=false;
+  }
 }
 
 void GraspPlannerEvaluatorWindow::resetSceneryAll()
@@ -484,7 +571,7 @@ void GraspPlannerEvaluatorWindow::loadScene()
 void GraspPlannerEvaluatorWindow::plan()
 {
 	openEEF();
-	resetPose();
+//	resetPose();
 
 	float timeout = UI.spinBoxTimeOut->value() * 1000.0f;
 	bool forceClosure = UI.checkBoxFoceClosure->isChecked();
@@ -544,23 +631,23 @@ void GraspPlannerEvaluatorWindow::plan()
 }
 
 void GraspPlannerEvaluatorWindow::normalGrasp() {
-	resetPose();
-	openEEF();
+       // resetPose(); 
+        openEEF();
 
-	graspNumber = UI.spinBoxGraspNum->value();
-	if (graspNumber <= 0 || grasps->getSize() < graspNumber) {
-		graspNumber = grasps->getSize();
-			UI.spinBoxGraspNum->setValue(graspNumber);
-		std::cout << "Invalid grasp number selection! Settting to last planned grasp." << std::endl;
-	}
+        graspNumber = UI.spinBoxGraspNum->value();
+        if (graspNumber <= 0 || grasps->getSize() < graspNumber) {
+                graspNumber = grasps->getSize();
+                        UI.spinBoxGraspNum->setValue(graspNumber);
+                std::cout << "Invalid grasp number selection! Settting to last planned grasp." << std::endl;
+        }
 
-	if (graspNumber > 0 && eefCloned && eefCloned->getEndEffector(eefName))
-	{
-		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
-		eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+        if (graspNumber > 0 && eefCloned && eefCloned->getEndEffector(eefName))
+        {
+                Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
+                eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
 
-		closeEEF();
-	}
+                closeEEF();
+        } 
 }
 
 void GraspPlannerEvaluatorWindow::closeEEF()
@@ -636,55 +723,125 @@ Eigen::Matrix3f GraspPlannerEvaluatorWindow::getSkewSymmetricMatrix(Eigen::Vecto
 
 	return mat;
 }
-void GraspPlannerEvaluatorWindow::perturbateObject()
+
+void GraspPlannerEvaluatorWindow::PerturbatedGrasp()
 {
-	Eigen::Vector3f rotPertub;
-	rotPertub.setRandom(3).normalize();
-	Eigen::Vector3f translPertub;
-	translPertub.setRandom(3).normalize();
+  openEEF();
+  Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
+  eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+        int no_of_eval = UI.spinBoxPerdurbation->value();
+  Eigen::Matrix4f deltaPose;
 
-	Eigen::Matrix4f deltaPose;
-	deltaPose.setIdentity();
-	deltaPose.block(0,0,3,3) = rodriguesFormula(rotPertub, UI.doubleSpinBoxPertAngle->value());
-	deltaPose.block(0,3,3,1) = translPertub*UI.doubleSpinBoxPertDistance->value();
+  deltaPose.setIdentity();
+  object->setGlobalPose(deltaPose);
+  
+  std::cout<<PerdurbationRotationDetectedPoseList[no_of_eval]<<endl;
+  std::cout<<PerdurbationTranslationDetectedPoseList[no_of_eval]<<endl;
+     if (UI.checkBoxPerdurbationRotation->isChecked() && UI.checkBoxPerdurbationTranslation->isChecked()) 
+     {
 
-	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
-	std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
-	std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
-	object->setGlobalPose(deltaPose*object->getGlobalPose());
+        deltaPose.block(0,0,3,3) = PerdurbationRotationDetectedPoseList[no_of_eval];
+        deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
 
-}
-void GraspPlannerEvaluatorWindow::perturbatedGrasp()
-{
-	openEEF();
-	resetPose();
+     }
+     else if (UI.checkBoxPerdurbationRotation->isChecked())
+     {
+    deltaPose.block(0,0,3,3) = PerdurbationRotationDetectedPoseList[no_of_eval];
 
-	graspNumber = UI.spinBoxGraspNum->value();
-	if (graspNumber <= 0 || grasps->getSize() < graspNumber) {
-		graspNumber = grasps->getSize();
-		UI.spinBoxGraspNum->setValue(graspNumber);
-		std::cout << "Invalid grasp number selection! Settting to last planned grasp." << std::endl;
-	}
+     }
+     else if (UI.checkBoxPerdurbationTranslation->isChecked())
+     {
+        deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
+     }
+  object->setGlobalPose(deltaPose*object->getGlobalPose());
+        //Grasp Center Point Robot Node
+                VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
+                //Grasp Pose
+                Eigen::Matrix4f pose = graspNode->getGlobalPose();
+                //Approach Direction (-z vector)
+                Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
+                //Move eff away	
+                moveEEFAway(approachDir, 3.0f);
 
-	// set to last valid grasp
-	if (graspNumber > 0 && eefCloned && eefCloned->getEndEffector(eefName))
-	{
-		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
-		eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-		perturbateObject();
+                closeEEF();
 
-		//Grasp Center Point Robot Node
-		VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
-		//Grasp Pose
-		Eigen::Matrix4f pose = graspNode->getGlobalPose();
-		//Approach Direction (-z vector)
-		Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
 
-		//Move eff away	
-		moveEEFAway(approachDir, 3.0f);
+/*   std::cout<< " Perdurbation Grasp"<<endl; */
+  // if (set_to_groundtr_pose)
+  // {
+    // //must check if there are valid grasps for ground truth
+    // std::cout<<"Moving Object to the detected pose"<<endl;
+    // openEEF();
+    // int no_of_eval = UI.spinBoxPerdurbation->value();
+ 
+  // //resetPose();
+  // if (no_of_eval != 0)
+  // {
+              // Eigen::Matrix4f deltaPose;
+	// deltaPose.setIdentity();
+     // std::cout<<PerdurbationRotationDetectedPoseList[no_of_eval]<<endl;
+     // std::cout<<PerdurbationTranslationDetectedPoseList[no_of_eval]<<endl;
+     // if (UI.checkBoxPerdurbationRotation->isChecked() && UI.checkBoxPerdurbationTranslation->isChecked()) 
+     // {
 
-		closeEEF();
-	}
+        // deltaPose.block(0,0,3,3) = PerdurbationRotationDetectedPoseList[no_of_eval];
+	// deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
+
+     // }
+     // else if (UI.checkBoxPerdurbationRotation->isChecked())
+     // {
+    // deltaPose.block(0,0,3,3) = PerdurbationRotationDetectedPoseList[no_of_eval];
+
+     // }
+     // else if (UI.checkBoxPerdurbationTranslation->isChecked())
+     // {
+	// deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
+     // }
+        // std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	// std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+        // std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
+	// object->setGlobalPose(deltaPose*object->getGlobalPose());
+        // set_to_detected_pose =true;
+        // UI.StatusLabel->setText("Detected Pose");
+  // }
+
+   // // SetToDetectedPose();
+    // std::cout<<"Perform new grasp"<<endl;
+    // //normalGrasp();
+    
+    // //closeEEF();
+  // }
+  // else
+    // std::cout<<"Must set object to ground truth object first"<<endl;
+       // [>  openEEF(); <]
+	// // resetPose();
+
+	// // graspNumber = UI.spinBoxGraspNum->value();
+	// // if (graspNumber <= 0 || grasps->getSize() < graspNumber) {
+		// // graspNumber = grasps->getSize();
+		// // UI.spinBoxGraspNum->setValue(graspNumber);
+		// // std::cout << "Invalid grasp number selection! Settting to last planned grasp." << std::endl;
+	// // }
+
+	// // // set to last valid grasp
+	// // if (graspNumber > 0 && eefCloned && eefCloned->getEndEffector(eefName))
+	// // {
+		// // Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
+		// // eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+		// // perturbateObject();
+
+		// // //Grasp Center Point Robot Node
+		// // VirtualRobot::RobotNodePtr graspNode = eefCloned->getEndEffector(eefName)->getGCP();
+		// // //Grasp Pose
+		// // Eigen::Matrix4f pose = graspNode->getGlobalPose();
+		// // //Approach Direction (-z vector)
+		// // Eigen::Vector3f approachDir = -pose.block(0,0,3,1);
+
+		// // //Move eff away	
+		// // moveEEFAway(approachDir, 3.0f);
+
+		// // closeEEF();
+	/* [> } <] */
 }
 
 void GraspPlannerEvaluatorWindow::resetPose()
@@ -694,6 +851,8 @@ void GraspPlannerEvaluatorWindow::resetPose()
 	object->setGlobalPose(pose);
 
 	eefCloned->setGlobalPose(eefInitialPose);
+        openEEF();
+  UI.StatusLabel->setText("Normal"); 
 }
 
 void GraspPlannerEvaluatorWindow::moveEEFAway(const Eigen::Vector3f& approachDir, float step, int maxLoops)
