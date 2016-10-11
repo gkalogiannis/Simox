@@ -23,9 +23,6 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <zorder>groupBox_1</zorder>
-      <zorder>groupBox_1</zorder>
-      <zorder>labelEvaluationNo</zorder>
      </widget>
     </item>
     <item row="0" column="1">
@@ -285,7 +282,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>590</y>
+         <y>610</y>
          <width>221</width>
          <height>151</height>
         </rect>
@@ -606,6 +603,19 @@
         <string>Normal</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="pushButtonAllExperiments">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>570</y>
+         <width>99</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
       <zorder>pushButtonReset</zorder>
       <zorder>label_10</zorder>
       <zorder>checkBoxColModel</zorder>
@@ -641,6 +651,7 @@
       <zorder>line_4</zorder>
       <zorder>StatusLabel</zorder>
       <zorder>label</zorder>
+      <zorder>pushButtonAllExperiments</zorder>
      </widget>
     </item>
    </layout>

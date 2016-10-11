@@ -51,7 +51,7 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 		/*!< Overriding the close event, so we know when the window was closed by the user. */
 		void closeEvent(QCloseEvent* event);
-
+                void AutomateExperiments();
 		void resetSceneryAll();
                 void CreatePerdurbationLists();
                 void ParseThePerdurbationFile();
@@ -67,6 +67,7 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 
 		void plan();
 		void save();
+                void saveAs(QString filename);
 
 		static Eigen::Matrix3f rodriguesFormula(Eigen::Vector3f vector, float theta);
 		static Eigen::Matrix3f getSkewSymmetricMatrix(Eigen::Vector3f vector);
@@ -85,6 +86,7 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 		void loadRobot();
 		void loadObject();
 		void loadScene();
+        
 
 		void setupUI();
 
@@ -121,8 +123,10 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
                 std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationGroundTrPoseList;
                 std::vector<Eigen::Vector3f> PerdurbationTranslationDetectedPoseList;
                 std::vector<Eigen::Vector3f> PerdurbationTranslationGroundTrPoseList;
+                std::vector<float> QualityMeasureList;
                 int PerdurbationGetNumberOfEvaluation();
                 void PrintThePerdurbationLists();
+
                 Eigen::Matrix<float,3,3,1> PerdurbationGetTheRotationMatrix(Eigen::Matrix<float,3,3,1> rotation_matrix ,std::string line, int i);
                 Eigen::Vector3f PerdurbationGetTheTranslationVector(Eigen::Vector3f translation_vector, std::string line, int i);
 		std::string robotName;

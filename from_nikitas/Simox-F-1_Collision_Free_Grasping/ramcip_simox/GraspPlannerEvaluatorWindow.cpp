@@ -20,7 +20,11 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 
 #include "Inventor/actions/SoLineHighlightRenderAction.h"
@@ -131,6 +135,7 @@ void GraspPlannerEvaluatorWindow::setupUI()
 	connect(UI.checkBoxColModel, SIGNAL(clicked()), this, SLOT(colModel()));
 	connect(UI.checkBoxCones, SIGNAL(clicked()), this, SLOT(frictionConeVisu()));
 	connect(UI.checkBoxGrasps, SIGNAL(clicked()), this, SLOT(showGrasps()));
+        connect(UI.pushButtonAllExperiments, SIGNAL(clicked()), this, SLOT(AutomateExperiments()));
         set_to_detected_pose = false;
         set_to_groundtr_pose = false;
 }
@@ -294,7 +299,7 @@ int GraspPlannerEvaluatorWindow::PerdurbationGetNumberOfEvaluation()
 void GraspPlannerEvaluatorWindow::ParseThePerdurbationFile()
 {
   std::stringstream ss;
-  ss << PerdurbationGetNumberOfEvaluation();
+  ss << PerdurbationGetNumberOfEvaluation()-1;
   UI.labelEvaluationNo->setText(QString(ss.str().c_str()));
   CreatePerdurbationLists(); 
   //PrintThePerdurbationLists();
@@ -608,6 +613,8 @@ void GraspPlannerEvaluatorWindow::plan()
 		sep1->addChild(mt);
 		sep1->addChild(eefVisu);
 		graspsSep->addChild(sep1);
+              
+		QualityMeasureList.push_back(  grasps->getGrasp(i)->getQuality());
 	}
 
 	// set to last valid grasp
@@ -617,6 +624,7 @@ void GraspPlannerEvaluatorWindow::plan()
 		std::cout << "Setting grasp..." << std::endl;
 		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
 		eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
+                QualityMeasureList.push_back(  grasps->getGrasp(graspNumber -1)->getQuality());
 	}
 
 	if (nrGrasps > 0 && graspNumber > 0)
@@ -660,6 +668,7 @@ void GraspPlannerEvaluatorWindow::closeEEF()
 		qualityMeasure->setContactPoints(contacts);
 		float qual = qualityMeasure->getGraspQuality();
 		bool isFC = qualityMeasure->isGraspForceClosure();
+                
 		std::stringstream ss;
 		ss << std::setprecision(3);
 		ss << "Grasp Nr " << graspNumber << "\nQuality (wrench space): " << qual << "\nForce closure: ";
@@ -844,6 +853,74 @@ void GraspPlannerEvaluatorWindow::PerturbatedGrasp()
 	/* [> } <] */
 }
 
+void GraspPlannerEvaluatorWindow::AutomateExperiments()
+{
+  std::cout<<"Execute all experiments"<<endl;
+  std::cout<<"-----------------------"<<endl;
+   
+   //Create folders that will hold the experimental results
+  chdir("../../data");
+  mkdir("perdurbation_results", 0700);
+  chdir("perdurbation_results");
+
+
+  //Experimental Variables
+  int number_of_grasps =5;
+  float timeout = (float)0 ;
+  float min_quality = (float)0.5;
+  bool force_closure =true;
+
+  UI.spinBoxGraspNumber->setValue(number_of_grasps);
+  UI.spinBoxTimeOut->setValue(timeout);
+  UI.doubleSpinBoxQuality->setValue(min_quality);
+  if (force_closure) {UI.checkBoxFoceClosure->setChecked(1);}
+
+  ParseThePerdurbationFile();
+  int evaluations = PerdurbationGetNumberOfEvaluation();
+  UI.checkBoxPerdurbationRotation->setChecked(1); 
+  // UI.checkBoxPerdurbationTranslation->setChecked(1);
+  for (int i = 0; i <evaluations; i++)
+  {
+    std::cout<<"Using object evaluation "<<i<<endl;
+    UI.spinBoxPerdurbation->setValue(i);
+    SetToGroundTruthPose();
+    //update the values to the ui
+    plan();
+    //update ui
+    stringstream foldername,filename;
+    foldername << i;
+    string temp_str = foldername.str();
+    mkdir((char*)temp_str.c_str(), 0700);
+    chdir((char*)temp_str.c_str());
+    //Save the currents grasps
+    std::cout<<"Saving the grasps xml file for evaluation "<<i<<endl;
+    filename << number_of_grasps<<".xml";
+    temp_str = filename.str();
+    saveAs((char*)temp_str.c_str());
+
+    //Select the best grasp
+    int best_grasp_no =  *max_element(QualityMeasureList.begin(), QualityMeasureList.end());
+    std::cout<<*max_element(QualityMeasureList.begin(), QualityMeasureList.end())<<endl;
+    std::cout<<best_grasp_no<<endl;
+   /*  for (int i=0; i<QualityMeasureList.size(); i++) */
+                    // {
+                                    // std::cout<<i<<" "<<QualityMeasureList[i] << '\n'<<std::endl;
+                                  /* } */
+    //Get the metric
+    
+    //Perdurbate
+    
+    //Get the perdubated metric
+    
+    //Save both of them into the folder
+    //
+    //Store them in the perdurbation result list
+    chdir("../");
+    resetSceneryAll();
+  }
+  
+
+}
 void GraspPlannerEvaluatorWindow::resetPose()
 {
 	Eigen::Matrix4f pose;
@@ -909,7 +986,36 @@ void GraspPlannerEvaluatorWindow::showGrasps()
 {
 	buildVisu();
 }
+void GraspPlannerEvaluatorWindow::saveAs(QString filename)
+{
+	if (!object)
+	{
+		return;
+	}
 
+	ManipulationObjectPtr objectM(new ManipulationObject(object->getName(), object->getVisualization()->clone(), object->getCollisionModel()->clone()));
+	objectM->addGraspSet(grasps);
+	objectName = std::string(filename.toAscii());
+	bool ok = false;
+
+	try
+	{
+		ok = ObjectIO::saveManipulationObject(objectM, objectName);
+	}
+	catch (VirtualRobotException& e)
+	{
+		cout << " ERROR while saving object" << endl;
+		cout << e.what();
+		return;
+	}
+
+	if (!ok)
+	{
+		cout << " ERROR while saving object" << endl;
+		return;
+	}
+
+}
 void GraspPlannerEvaluatorWindow::save()
 {
 	if (!object)
