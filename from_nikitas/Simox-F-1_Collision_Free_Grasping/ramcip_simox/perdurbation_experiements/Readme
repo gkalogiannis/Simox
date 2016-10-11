@@ -1,0 +1,13 @@
+for each object and for 3 differents cases :
+	rotation perdurbation
+	translation perdurbation
+	rotation and translation perdurbation
+10 grasps where calculated for ground truth object (time = inf, min_quality =0.5, force closure =yes)
+
+Selecting the best grasp of the above 10 metrics, perform the prespectivelly perdurbation
+
+
+
+
+
+		
