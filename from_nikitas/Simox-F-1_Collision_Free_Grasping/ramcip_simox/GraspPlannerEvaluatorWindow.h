@@ -72,7 +72,7 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
 		static Eigen::Matrix3f rodriguesFormula(Eigen::Vector3f vector, float theta);
 		static Eigen::Matrix3f getSkewSymmetricMatrix(Eigen::Vector3f vector);
 
-		void PerturbatedGrasp();
+		float PerturbatedGrasp();
 		//void perturbateObject();
 		void resetPose();
 		void normalGrasp();
@@ -123,7 +123,7 @@ class GraspPlannerEvaluatorWindow : public QMainWindow
                 std::vector<Eigen::Matrix<float, 3, 3, 1> >  PerdurbationRotationGroundTrPoseList;
                 std::vector<Eigen::Vector3f> PerdurbationTranslationDetectedPoseList;
                 std::vector<Eigen::Vector3f> PerdurbationTranslationGroundTrPoseList;
-                std::vector<float> QualityMeasureList;
+                std::vector<float> QualityMeasureListBeforePerdurbation;
                 int PerdurbationGetNumberOfEvaluation();
                 void PrintThePerdurbationLists();
 

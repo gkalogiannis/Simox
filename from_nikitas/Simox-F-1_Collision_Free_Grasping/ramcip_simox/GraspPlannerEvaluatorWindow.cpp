@@ -20,6 +20,7 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <list>
 #include <algorithm>
 
 #include <sys/types.h>
@@ -614,7 +615,7 @@ void GraspPlannerEvaluatorWindow::plan()
 		sep1->addChild(eefVisu);
 		graspsSep->addChild(sep1);
               
-		QualityMeasureList.push_back(  grasps->getGrasp(i)->getQuality());
+		QualityMeasureListBeforePerdurbation.push_back(  grasps->getGrasp(i)->getQuality());
 	}
 
 	// set to last valid grasp
@@ -624,7 +625,7 @@ void GraspPlannerEvaluatorWindow::plan()
 		std::cout << "Setting grasp..." << std::endl;
 		Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
 		eefCloned->setGlobalPoseForRobotNode(eefCloned->getEndEffector(eefName)->getTcp(), mGrasp);
-                QualityMeasureList.push_back(  grasps->getGrasp(graspNumber -1)->getQuality());
+                QualityMeasureListBeforePerdurbation.push_back(  grasps->getGrasp(graspNumber -1)->getQuality());
 	}
 
 	if (nrGrasps > 0 && graspNumber > 0)
@@ -733,7 +734,7 @@ Eigen::Matrix3f GraspPlannerEvaluatorWindow::getSkewSymmetricMatrix(Eigen::Vecto
 	return mat;
 }
 
-void GraspPlannerEvaluatorWindow::PerturbatedGrasp()
+float GraspPlannerEvaluatorWindow::PerturbatedGrasp()
 {
   openEEF();
   Eigen::Matrix4f mGrasp = grasps->getGrasp(graspNumber - 1)->getTcpPoseGlobal(object->getGlobalPose());
@@ -773,7 +774,9 @@ void GraspPlannerEvaluatorWindow::PerturbatedGrasp()
                 moveEEFAway(approachDir, 3.0f);
 
                 closeEEF();
-
+                qualityMeasure->setContactPoints(contacts);
+                float qual = qualityMeasure->getGraspQuality();
+                return qual;
 
 /*   std::cout<< " Perdurbation Grasp"<<endl; */
   // if (set_to_groundtr_pose)
@@ -865,7 +868,7 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
 
 
   //Experimental Variables
-  int number_of_grasps =5;
+  int number_of_grasps =10;
   float timeout = (float)0 ;
   float min_quality = (float)0.5;
   bool force_closure =true;
@@ -877,16 +880,22 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
 
   ParseThePerdurbationFile();
   int evaluations = PerdurbationGetNumberOfEvaluation();
-  UI.checkBoxPerdurbationRotation->setChecked(1); 
-  // UI.checkBoxPerdurbationTranslation->setChecked(1);
-  for (int i = 0; i <evaluations; i++)
+    UI.checkBoxPerdurbationRotation->setChecked(1); 
+   UI.checkBoxPerdurbationTranslation->setChecked(1);
+  ofstream result;
+ 
+  for (int i = 17; i <evaluations; i++)
   {
+    resetPose();
+    resetSceneryAll();
     std::cout<<"Using object evaluation "<<i<<endl;
     UI.spinBoxPerdurbation->setValue(i);
     SetToGroundTruthPose();
     //update the values to the ui
+    QualityMeasureListBeforePerdurbation.clear();
     plan();
     //update ui
+   /*  update(); */
     stringstream foldername,filename;
     foldername << i;
     string temp_str = foldername.str();
@@ -898,25 +907,32 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
     temp_str = filename.str();
     saveAs((char*)temp_str.c_str());
 
-    //Select the best grasp
-    int best_grasp_no =  *max_element(QualityMeasureList.begin(), QualityMeasureList.end());
-    std::cout<<*max_element(QualityMeasureList.begin(), QualityMeasureList.end())<<endl;
-    std::cout<<best_grasp_no<<endl;
-   /*  for (int i=0; i<QualityMeasureList.size(); i++) */
-                    // {
-                                    // std::cout<<i<<" "<<QualityMeasureList[i] << '\n'<<std::endl;
-                                  /* } */
-    //Get the metric
-    
-    //Perdurbate
-    
+    //Find the best grasp
+    std::vector<float>::iterator it;
+    it =  max_element(QualityMeasureListBeforePerdurbation.begin(), QualityMeasureListBeforePerdurbation.end());
+    int pos = distance(QualityMeasureListBeforePerdurbation.begin(), it); //The position in QualityMeasureList
+/*     for (int i=0; i<QualityMeasureList.size(); i++)  */
+    // {
+      // std::cout<<i<<" "<<QualityMeasureList[i] << '\n'<<std::endl;
+    /* } */
+    std::cout<<pos<<endl; 
+    float best_grasp_before_perd = (float)*max_element(QualityMeasureListBeforePerdurbation.begin(), QualityMeasureListBeforePerdurbation.end());
+    std::cout<<best_grasp_before_perd<<endl;
+
+    //Set to the accordingly grasp
+    UI.spinBoxGraspNum->setValue(pos+1);
+    normalGrasp();
+    //Perdurbate the obejct
+    float grasp_after_perd = PerturbatedGrasp();
+    std::cout<<grasp_after_perd<<endl;
+     result.open("result.txt");
+    result <<i<<"       "<<best_grasp_before_perd<<"   "<<grasp_after_perd<<"\n";
     //Get the perdubated metric
-    
+    result.close();
     //Save both of them into the folder
     //
     //Store them in the perdurbation result list
     chdir("../");
-    resetSceneryAll();
   }
   
 

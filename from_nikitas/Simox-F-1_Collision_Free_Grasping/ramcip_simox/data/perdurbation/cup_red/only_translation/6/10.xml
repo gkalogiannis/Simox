@@ -1,0 +1,191 @@
+<ManipulationObject name='ManipulationObject'>
+	<Visualization>
+		<File type='inventor'>../../data/perdurbation/../ramcip_objects/xml/../wrl/cup_red.wrl</File>
+	</Visualization>
+	<CollisionModel>
+		<File type='inventor'>../../data/perdurbation/../ramcip_objects/xml/../wrl/cup_red.wrl</File>
+	</CollisionModel>
+	<GraspSet name='Grasp Planner - SHADOWHAND' RobotType='SHADOWHAND' EndEffector='SHADOWHAND'>
+		<Grasp name='Grasp 1' quality='0.514987' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.121395' c2='0.992138' c3='0.0304307' c4='0.630665'/>
+					<row2 c1='-0.973711' c2='0.113076' c3='0.197739' c4='-14.9812'/>
+					<row3 c1='0.192743' c2='-0.0536353' c3='0.979782' c4='157.79'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 1'>
+				<Node name='H1_F1J1' unit='radian' value='-0.250797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.313'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.850797'/>
+				<Node name='H1_F2J2' unit='radian' value='1.453'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.890797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.473'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 2' quality='0.547805' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.395061' c2='-0.782414' c3='-0.481411' c4='12.9064'/>
+					<row2 c1='0.107643' c2='-0.481005' c3='0.870084' c4='-15.7062'/>
+					<row3 c1='-0.912327' c2='-0.395557' c3='-0.105805' c4='149.824'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 2'>
+				<Node name='H1_F1J1' unit='radian' value='-0.150797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.373'/>
+				<Node name='H1_F2J1' unit='radian' value='-1.2308'/>
+				<Node name='H1_F2J2' unit='radian' value='1.553'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.750797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.393'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 3' quality='0.540579' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.614673' c2='-0.41694' c3='0.669581' c4='-2.74799'/>
+					<row2 c1='-0.329575' c2='0.906985' c3='0.262221' c4='-1.64603'/>
+					<row3 c1='-0.71663' c2='-0.0594972' c3='-0.694911' c4='169.375'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 3'>
+				<Node name='H1_F1J1' unit='radian' value='-0.570797'/>
+				<Node name='H1_F1J2' unit='radian' value='1.053'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.850797'/>
+				<Node name='H1_F2J2' unit='radian' value='1.393'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.750797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.393'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 4' quality='0.539677' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.224672' c2='-0.929085' c3='0.29381' c4='-15.0033'/>
+					<row2 c1='-0.25775' c2='0.234116' c3='0.937419' c4='-5.44142'/>
+					<row3 c1='-0.939727' c2='-0.286341' c3='-0.186872' c4='154.363'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 4'>
+				<Node name='H1_F1J1' unit='radian' value='-0.290797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.353'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.250797'/>
+				<Node name='H1_F2J2' unit='radian' value='1.333'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.790797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.053'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 5' quality='0.58304' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.437215' c2='-0.26147' c3='0.860509' c4='-16.0407'/>
+					<row2 c1='0.627915' c2='0.596249' c3='0.50021' c4='-2.09887'/>
+					<row3 c1='-0.643868' c2='0.759026' c3='-0.096508' c4='154.869'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 5'>
+				<Node name='H1_F1J1' unit='radian' value='-0.890797'/>
+				<Node name='H1_F1J2' unit='radian' value='1.513'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.670797'/>
+				<Node name='H1_F2J2' unit='radian' value='1.173'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.870797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.153'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 6' quality='0.547504' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.740471' c2='0.623368' c3='-0.251226' c4='-6.43016'/>
+					<row2 c1='-0.534193' c2='-0.772717' c3='-0.34285' c4='-5.54609'/>
+					<row3 c1='-0.407848' c2='-0.119668' c3='0.905174' c4='150.419'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 6'>
+				<Node name='H1_F1J1' unit='radian' value='-0.290797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.672999'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.690797'/>
+				<Node name='H1_F2J2' unit='radian' value='1.153'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.870797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.073'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 7' quality='0.511343' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.211404' c2='0.827093' c3='-0.520794' c4='15.6347'/>
+					<row2 c1='-0.066225' c2='-0.543734' c3='-0.836641' c4='13.5402'/>
+					<row3 c1='-0.975153' c2='-0.14238' c3='0.169722' c4='156.752'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 7'>
+				<Node name='H1_F1J1' unit='radian' value='-0.530797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.852999'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.790797'/>
+				<Node name='H1_F2J2' unit='radian' value='0.992999'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.430797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.393'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 8' quality='0.599959' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.766849' c2='-0.638882' c3='0.0614254' c4='0.919456'/>
+					<row2 c1='0.641449' c2='0.766168' c3='-0.0391235' c4='10.0779'/>
+					<row3 c1='-0.022067' c2='0.069403' c3='0.997344' c4='154.855'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 8'>
+				<Node name='H1_F1J1' unit='radian' value='-0.390797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.493'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.430797'/>
+				<Node name='H1_F2J2' unit='radian' value='0.692999'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.670797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.033'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 9' quality='0.501322' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='-0.0633537' c2='-0.991547' c3='0.113229' c4='1.15478'/>
+					<row2 c1='-0.121101' c2='0.120256' c3='0.985329' c4='-8.96461'/>
+					<row3 c1='-0.990617' c2='0.0487122' c3='-0.127696' c4='149.72'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 9'>
+				<Node name='H1_F1J1' unit='radian' value='-0.230797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.333'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.810797'/>
+				<Node name='H1_F2J2' unit='radian' value='1.313'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.770797'/>
+				<Node name='H1_F3J2' unit='radian' value='1.273'/>
+			</Configuration>
+		</Grasp>
+		<Grasp name='Grasp 10' quality='0.566589' Creation='Simox - GraspStudio - GraspWrenchSpace' Preshape='Grasp Preshape'>
+			<Transform>
+				<Matrix4x4>
+					<row1 c1='0.708665' c2='0.704336' c3='-0.0412911' c4='6.45204'/>
+					<row2 c1='-0.666583' c2='0.649203' c3='-0.366337' c4='-5.07901'/>
+					<row3 c1='-0.231218' c2='0.287134' c3='0.929566' c4='151.895'/>
+					<row4 c1='0' c2='0' c3='0' c4='1'/>
+				</Matrix4x4>
+			</Transform>
+			<Configuration name='Grasp 10'>
+				<Node name='H1_F1J1' unit='radian' value='-0.330797'/>
+				<Node name='H1_F1J2' unit='radian' value='0.732999'/>
+				<Node name='H1_F2J1' unit='radian' value='-0.790797'/>
+				<Node name='H1_F2J2' unit='radian' value='0.752999'/>
+				<Node name='H1_F3J1' unit='radian' value='-0.650797'/>
+				<Node name='H1_F3J2' unit='radian' value='0.652999'/>
+			</Configuration>
+		</Grasp>
+	</GraspSet>
+
+</ManipulationObject>
