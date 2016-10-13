@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     SoQt::init(argc, argv, "showRobot");
     cout << " --- START --- " << endl;
 
-    std::string filename("../../data/perdurbation/CupScene.xml");
+    std::string filename("../../data/perdurbation/SoftkingsScene.xml");
     std::string robotName("SHADOWHAND");
     std::string eefName("SHADOWHAND");
     std::string objectName("ManipulationObject");

@@ -184,7 +184,7 @@ Eigen::Vector3f GraspPlannerEvaluatorWindow:: PerdurbationGetTheTranslationVecto
 void GraspPlannerEvaluatorWindow::CreatePerdurbationLists()
 {
   string line,temp;
-    ifstream myfile ("../../data/perdurbation/cup_evaluation");
+    ifstream myfile ("../../data/perdurbation/softkings_evaluation");
       if (myfile.is_open())
           {
               while ( getline (myfile,line) )
@@ -279,7 +279,7 @@ int GraspPlannerEvaluatorWindow::PerdurbationGetNumberOfEvaluation()
     string line;
     int number_of_eval;
     number_of_eval = 0;
-    ifstream myfile ("../../data/perdurbation/cup_evaluation");
+    ifstream myfile ("../../data/perdurbation/softkings_evaluation");
       if (myfile.is_open())
           {
               while ( getline (myfile,line) )
@@ -311,7 +311,7 @@ void GraspPlannerEvaluatorWindow::SetToDetectedPose()
   int no_of_eval = UI.spinBoxPerdurbation->value();
  
   resetPose();
-  if (no_of_eval != 0)
+  if (no_of_eval >= 0)
   {
       	Eigen::Matrix4f deltaPose;
 	deltaPose.setIdentity();
@@ -333,8 +333,9 @@ void GraspPlannerEvaluatorWindow::SetToDetectedPose()
      {
 	deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
      }
-        std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
-	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+         std::cout<<"Set to Detected Pose"<<endl;
+         // std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	// std::cout << "DeltaPose:\n" << deltaPose << std::endl;
         std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
 	object->setGlobalPose(deltaPose*object->getGlobalPose());
         set_to_detected_pose =true;
@@ -350,7 +351,7 @@ void GraspPlannerEvaluatorWindow::SetToGroundTruthPose()
    std::cout<<"Setting to Ground Truth Pose"<<endl;
   int no_of_eval = UI.spinBoxPerdurbation->value();
   resetPose();
-  if (no_of_eval != 0)
+  if (no_of_eval >= 0)
   {
       	Eigen::Matrix4f deltaPose;
 	deltaPose.setIdentity();
@@ -372,9 +373,9 @@ void GraspPlannerEvaluatorWindow::SetToGroundTruthPose()
      {
 	deltaPose.block(0,3,3,1) = PerdurbationTranslationGroundTrPoseList[no_of_eval];
      }
-     
-        std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
-	std::cout << "DeltaPose:\n" << deltaPose << std::endl;
+     std::cout<<"Set to Ground Truth Pose"<<endl;
+        // std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	// std::cout << "DeltaPose:\n" << deltaPose << std::endl;
         std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
 	object->setGlobalPose(deltaPose*object->getGlobalPose());
         set_to_groundtr_pose =true;
@@ -757,11 +758,13 @@ float GraspPlannerEvaluatorWindow::PerturbatedGrasp()
      else if (UI.checkBoxPerdurbationRotation->isChecked())
      {
     deltaPose.block(0,0,3,3) = PerdurbationRotationDetectedPoseList[no_of_eval];
+    deltaPose.block(0,3,3,1) = PerdurbationTranslationGroundTrPoseList[no_of_eval];
 
      }
      else if (UI.checkBoxPerdurbationTranslation->isChecked())
      {
         deltaPose.block(0,3,3,1) = PerdurbationTranslationDetectedPoseList[no_of_eval];
+        deltaPose.block(0,0,3,3)= PerdurbationRotationGroundTrPoseList[no_of_eval];
      }
   object->setGlobalPose(deltaPose*object->getGlobalPose());
         //Grasp Center Point Robot Node
@@ -776,6 +779,10 @@ float GraspPlannerEvaluatorWindow::PerturbatedGrasp()
                 closeEEF();
                 qualityMeasure->setContactPoints(contacts);
                 float qual = qualityMeasure->getGraspQuality();
+                std::cout<< "Perdubation"<<endl;
+                // std::cout << "Pose:\n" << object->getGlobalPose() << std::endl;
+	        std::cout << "Pose:\n" << object->getGlobalPose()<<endl;
+        // std::cout << "FinalPose:\n" << (deltaPose*object->getGlobalPose()) << std::endl;
                 return qual;
 
 /*   std::cout<< " Perdurbation Grasp"<<endl; */
@@ -870,7 +877,7 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
   //Experimental Variables
   int number_of_grasps =10;
   float timeout = (float)0 ;
-  float min_quality = (float)0.5;
+  float min_quality = (float)0.4;
   bool force_closure =true;
 
   UI.spinBoxGraspNumber->setValue(number_of_grasps);
@@ -879,12 +886,15 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
   if (force_closure) {UI.checkBoxFoceClosure->setChecked(1);}
 
   ParseThePerdurbationFile();
+
   int evaluations = PerdurbationGetNumberOfEvaluation();
-    UI.checkBoxPerdurbationRotation->setChecked(1); 
-   UI.checkBoxPerdurbationTranslation->setChecked(1);
+  
+  //Set everything 
+  UI.checkBoxPerdurbationRotation->setChecked(1); 
+  UI.checkBoxPerdurbationTranslation->setChecked(1);
   ofstream result;
  
-  for (int i = 17; i <evaluations; i++)
+  for (int i = 0; i <17; i++)
   {
     resetPose();
     resetSceneryAll();
@@ -894,14 +904,14 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
     //update the values to the ui
     QualityMeasureListBeforePerdurbation.clear();
     plan();
-    //update ui
-   /*  update(); */
+   
+
+    //Save the currents grasps
     stringstream foldername,filename;
     foldername << i;
     string temp_str = foldername.str();
     mkdir((char*)temp_str.c_str(), 0700);
     chdir((char*)temp_str.c_str());
-    //Save the currents grasps
     std::cout<<"Saving the grasps xml file for evaluation "<<i<<endl;
     filename << number_of_grasps<<".xml";
     temp_str = filename.str();
@@ -911,10 +921,6 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
     std::vector<float>::iterator it;
     it =  max_element(QualityMeasureListBeforePerdurbation.begin(), QualityMeasureListBeforePerdurbation.end());
     int pos = distance(QualityMeasureListBeforePerdurbation.begin(), it); //The position in QualityMeasureList
-/*     for (int i=0; i<QualityMeasureList.size(); i++)  */
-    // {
-      // std::cout<<i<<" "<<QualityMeasureList[i] << '\n'<<std::endl;
-    /* } */
     std::cout<<pos<<endl; 
     float best_grasp_before_perd = (float)*max_element(QualityMeasureListBeforePerdurbation.begin(), QualityMeasureListBeforePerdurbation.end());
     std::cout<<best_grasp_before_perd<<endl;
@@ -922,16 +928,54 @@ void GraspPlannerEvaluatorWindow::AutomateExperiments()
     //Set to the accordingly grasp
     UI.spinBoxGraspNum->setValue(pos+1);
     normalGrasp();
-    //Perdurbate the obejct
-    float grasp_after_perd = PerturbatedGrasp();
-    std::cout<<grasp_after_perd<<endl;
+    
+    //Perdurbate the objectt and get the perdurbated metric
+     UI.checkBoxPerdurbationRotation->setChecked(1); 
+    UI.checkBoxPerdurbationTranslation->setChecked(0);     
+
+    float grasp_after_perd_only_rotation = PerturbatedGrasp();
+    
+    
+    //Get back to ground truth rotation+translation
+    resetPose();
+    UI.checkBoxPerdurbationRotation->setChecked(1); 
+    UI.checkBoxPerdurbationTranslation->setChecked(1);     
+    SetToGroundTruthPose();
+    
+    //Set it to best grasp
+    UI.spinBoxGraspNum->setValue(pos+1);
+    normalGrasp();  
+    
+    //Perdurbate the objectt and get the perdurbated metric
+    UI.checkBoxPerdurbationRotation->setChecked(0); 
+   UI.checkBoxPerdurbationTranslation->setChecked(1);   
+
+  float grasp_after_perd_only_translation = PerturbatedGrasp();
+
+     //Get back to ground truth rotation+translation
+    resetPose();
+    UI.checkBoxPerdurbationRotation->setChecked(1); 
+    UI.checkBoxPerdurbationTranslation->setChecked(1);     
+    SetToGroundTruthPose();
+    
+    //Set it to best grasp
+    UI.spinBoxGraspNum->setValue(pos+1);
+    normalGrasp();  
+    
+    //Perdurbate the objectt and get the perdurbated metric
+    UI.checkBoxPerdurbationRotation->setChecked(1); 
+   UI.checkBoxPerdurbationTranslation->setChecked(1);   
+
+  float grasp_after_perd_both = PerturbatedGrasp();
+
+   
+
+
+    //print the info
      result.open("result.txt");
-    result <<i<<"       "<<best_grasp_before_perd<<"   "<<grasp_after_perd<<"\n";
-    //Get the perdubated metric
+    result <<i<<"       "<<best_grasp_before_perd<<"   "<<grasp_after_perd_only_rotation<<" "<<grasp_after_perd_only_translation<<" "<<grasp_after_perd_both<<"\n";
+    
     result.close();
-    //Save both of them into the folder
-    //
-    //Store them in the perdurbation result list
     chdir("../");
   }
   
