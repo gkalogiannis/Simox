@@ -13,7 +13,7 @@
   </ManipulationObject>
   
   <Robot name="shadowhand">
-  <File>robots/Shadow_Dexterous_Hand/shadowhand.xml</File>
+    <File>robots/ramcip_hand/shadowhand.xml</File>
   <GlobalPose>
     <Transform>
       <Translation x="500" y="0" z="185"/>
