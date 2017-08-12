@@ -27,10 +27,7 @@ namespace GraspStudio
 
     ContactConeGenerator::ContactConeGenerator(int coneSamples, float frictionCoeff, float unitForce)
     {
-	std::cout << "ContactConeGenerator" <<endl;
-std::cout << coneSamples << endl;
-std::cout << frictionCoeff << endl;
-std::cout << unitForce << endl;
+
         this->unitForce = unitForce;
         //Generation of generic friction cone discretized by an 8-sided polyhedron
         this->frictionCoeff = frictionCoeff;

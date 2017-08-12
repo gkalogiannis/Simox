@@ -40,7 +40,7 @@ namespace GraspStudio
 
         //! constructor
         ContactConeGenerator(int coneSamples = 8, float frictionCoeff = 0.25f, float unitForce = 1.0f);
-	//ContactConeGenerator(int coneSamples , float frictionCoeff , float unitForce );
+
         //! destructor
         ~ContactConeGenerator();
 
